@@ -9,7 +9,11 @@ public class CalcTest {
 
     @Test
     public void testResta() {
-
+        Calc calc = new Calc();
+        assertEquals(1, calc.resta(3, 2));
+        assertEquals(0, calc.resta(1, 1));
+        assertEquals(-1, calc.resta(1, 2));
+        
     }
 
     @Test
