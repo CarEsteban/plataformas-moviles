@@ -16,6 +16,7 @@ public class UI {
         return calc.multiplicacion(n1, n2);
     }
 
+    // Método Main
     public static void main(String[] args) {
         UI ui = new UI();
         System.out.println("Suma: " + ui.suma(5, 3));
