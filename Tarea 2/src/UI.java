@@ -17,7 +17,7 @@ public class UI {
         return calc.multiplicacion(n1, n2);
     }
 
-    // Método Main
+    // Método Principal
     public static void main(String[] args) {
         UI ui = new UI();
         ui.displayResults(5, 3);
