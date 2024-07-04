@@ -16,4 +16,11 @@ public class UI {
         return calc.multiplicacion(n1, n2);
     }
 
+    public static void main(String[] args) {
+        UI ui = new UI();
+        System.out.println("Suma: " + ui.suma(5, 3));
+        System.out.println("Resta: " + ui.resta(5, 3));
+        System.out.println("Multiplicacion: " + ui.multiplicacion(5, 3));
+    }
+
 }
