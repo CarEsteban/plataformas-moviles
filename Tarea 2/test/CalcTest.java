@@ -1,6 +1,4 @@
-package test;
 import org.junit.Test;
-import Calc;
 
 import static org.junit.Assert.*;
 
