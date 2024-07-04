@@ -1,6 +1,5 @@
 public class UI {
-    private final Calc calc;
-
+    private Calc calc;
     public UI() {
         this.calc = new Calc();
     }
@@ -20,12 +19,9 @@ public class UI {
     // Método Principal
     public static void main(String[] args) {
         UI ui = new UI();
-        ui.displayResults(5, 3);
+        System.out.println("Suma: " + ui.suma(5, 3));
+        System.out.println("Resta: " + ui.resta(5, 3));
+        System.out.println("Multiplicacion: " + ui.multiplicacion(5, 3));
     }
 
-    private void displayResults(int n1, int n2) {
-        System.out.println("Suma: " + suma(n1, n2));
-        System.out.println("Resta: " + resta(n1, n2));
-        System.out.println("Multiplicación: " + multiplicacion(n1, n2));
-    }
 }
