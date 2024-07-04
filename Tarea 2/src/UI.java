@@ -16,12 +16,16 @@ public class UI {
         return calc.multiplicacion(n1, n2);
     }
 
-    // Método Main
+    // Método Principal
     public static void main(String[] args) {
         UI ui = new UI();
-        System.out.println("Suma: " + ui.suma(5, 3));
-        System.out.println("Resta: " + ui.resta(5, 3));
-        System.out.println("Multiplicacion: " + ui.multiplicacion(5, 3));
+        ui.displayResults(2, 5);
+    }
+
+    private void showResults(int number1, int number2) {
+        System.out.println("Addition: " + add(number1, number2));
+        System.out.println("Subtraction: " + subtract(number1, number2));
+        System.out.println("Multiplication: " + multiply(number1, number2));
     }
 
 }
