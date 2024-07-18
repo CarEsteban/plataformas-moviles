@@ -76,16 +76,33 @@ fun problema2() {
     }
 
     //bucle para contar las palabras que contienen al menos 2 vocales distintas
-    val arrayVocales = setOf("a","e","i","o","u")
+    val arrayVocales = setOf('a', 'e', 'i', 'o', 'u')
     for (palabra in arrayPalabras){
-        for (char in palabra) {
-            
+        val vocalesEncontradas = mutableSetOf<Char>()
+
+        for (char in palabra.lowercase()) {
+            if (char in arrayVocales) {
+                vocalesEncontradas.add(char)
+            }
+        }
+
+        if (vocalesEncontradas.size >= 2) {
+            contadorPalabrasVocales++
         }
     }
 
 
     //bucle para contar las palabras que inician con una letra consonante
-
+    val arrayConsonantes = setOf(
+        'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p',
+        'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'
+    )
+    for (palabra in arrayPalabras){
+        val charArray = palabra.toCharArray()
+        if (charArray[0] in arrayConsonantes){
+            contadorPalabrasConsonante++
+        }
+    }
 
     println("Array de palabras ingresado: $arrayPalabras")
     println("Cantidad de palabras palíndromas del array: $contadorPalabrasPalindromas")
