@@ -1,8 +1,8 @@
 fun main() {
-    var continuar:Boolean = true
+    var continuar = true
     while (continuar)   {
         println("1) Problema 1\n2) Problema 2")
-        val problema = readLine()
+        val problema = readlnOrNull()
         val problemaValor = problema?.toIntOrNull()
         when (problemaValor) {
             1 -> {
@@ -21,7 +21,7 @@ fun main() {
 fun problema1() {
     println("Problema 1")
     println("Ingrese el valor a convertir de decimal a binario:")
-    val valor = readLine()
+    val valor = readlnOrNull()
     var valorInt = valor?.toInt()
     var modulo:Int
     val arrayBinario:MutableList<Int> = mutableListOf()
@@ -44,33 +44,33 @@ fun problema1() {
 fun problema2() {
     println("Problema 2")
     println("Programa de las palabras palíndromas")
-    var continuar2:Boolean = true
+    var continuar2 = true
     val arrayPalabras:MutableList<String> = mutableListOf()
-    var contadorPalabrasPalindromas:Int = 0
-    var contadorPalabrasVocales:Int = 0
-    var contadorPalabrasConsonante:Int = 0
+    var contadorPalabrasPalindromas = 0
+    var contadorPalabrasVocales = 0
+    var contadorPalabrasConsonante = 0
 
     while (continuar2){
         println("Ingrese la palabra:")
-        var palabra = readLine()
+        val palabra = readlnOrNull()
         if (palabra != null) {
             arrayPalabras.add(palabra)
         }
         println("Desea ingresar otra palabra? 1)Si 2)No")
-        var opcion = readLine()
-        var opcionInt = opcion?.toInt()
-        if (opcionInt == null){
-            println("Ingrese un número válido")
-        }else if(opcionInt == 1){
-            continuar2 = true
-        }else if(opcionInt == 2){
-            continuar2 = false
+        val opcion = readlnOrNull()
+        val opcionInt = opcion?.toInt()
+        when (opcionInt) {
+            null -> println("Ingrese un número válido")
+            1 -> continuar2 = true
+            2 -> continuar2 = false
+            else -> println("Opción no válida")
         }
+
     }
     //bucle para contar las palabras palíndromas
     for (palabra in arrayPalabras){
         val palabraLimpia = palabra.trim().replace("\\s".toRegex(), "").lowercase()
-        if (palabraLimpia.equals(palabraLimpia.reversed())){
+        if (palabraLimpia == palabraLimpia.reversed()){
             contadorPalabrasPalindromas++
         }
     }
@@ -113,14 +113,19 @@ fun problema2() {
 
 fun repetirMenu(): Boolean {
     println("Desea regresar al menú? 1)Si 2)No")
-    var opcion = readLine()
-    var opcionInt = opcion?.toInt()
-    if (opcionInt == null){
-        println("Ingrese un número válido")
-    }else if(opcionInt == 1){
-        return true
-    }else if(opcionInt == 2){
-        return false
+    val opcion = readlnOrNull()
+    val opcionInt = opcion?.toIntOrNull()
+
+    return when (opcionInt) {
+        null -> {
+            println("Ingrese un número válido")
+            false
+        }
+        1 -> true
+        2 -> false
+        else -> {
+            println("Opción no válida")
+            false
+        }
     }
-    return false
 }
