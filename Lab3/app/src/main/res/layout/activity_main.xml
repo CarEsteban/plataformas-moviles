@@ -130,7 +130,7 @@
 
 
 
-    <!--LAYOUT PARA LA SEGUNDA FILA DE BOTONES-->
+    <!--LAYOUT PARA LA TERCER FILA DE BOTONES-->
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -151,7 +151,32 @@
         android:enabled="true"
         android:background="@drawable/button_black_background"
         app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
-        app:layout_constraintStart_toStartOf=""/>
+        app:layout_constraintStart_toEndOf="@id/btn_7"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9"
+        android:enabled="true"
+        android:background="@drawable/button_black_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
+        app:layout_constraintStart_toEndOf="@id/btn_8"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_resta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:enabled="true"
+        android:background="@drawable/button_aqua_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
+        app:layout_constraintStart_toEndOf="@id/btn_9"/>
+
+
+    <!--LAYOUT PARA LA CUARTA FILA DE BOTONES-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
