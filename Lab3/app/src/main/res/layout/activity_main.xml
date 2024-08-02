@@ -9,174 +9,314 @@
     tools:context=".MainActivity"
     android:paddingHorizontal="30dp"
     android:paddingVertical="80dp"
-    android:background="@drawable/fondo_degradado"
-    >
-
+    android:background="@drawable/fondo_degradado">
 
     <TextView
         android:id="@+id/operacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
         android:text="operacion"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent" />
 
-
-    <androidx.appcompat.widget.AppCompatEditText
+    <TextView
         android:id="@+id/resultado"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="60dp"
         android:text="Resultado"
-        android:singleLine="true"
-        android:maxLines="1"
         app:layout_constraintTop_toBottomOf="@id/operacion"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!--LAYOUT PARA LA PRIMERA FILA DE BOTONES-->
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_potencia"
-        android:layout_width="wrap_content"
+    <!-- Layout para la primera fila de botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="x^y"
-        android:enabled="true"
-        android:background="@drawable/button_black_background"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/primeraFila"
         app:layout_constraintTop_toBottomOf="@id/resultado"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_potencia"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="x^y"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_raiz"
-        android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_raiz"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="√x"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_parentesis_abierto"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="("
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_parentesis_cerrado"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text=")"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+    </LinearLayout>
+
+    <!-- Layout para la segunda fila de botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="√x"
-        android:enabled="true"
-        android:background="@drawable/button_black_background"
-        app:layout_constraintTop_toBottomOf="@id/resultado"
-        app:layout_constraintStart_toEndOf="@id/btn_potencia"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/segundaFila"
+        app:layout_constraintTop_toBottomOf="@id/primeraFila"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_borrar_todo"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="Ac"
+            android:textColor="@color/white"
+            android:enabled="true"
+            android:background="@drawable/button_gray_background" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_parentesis_abierto"
-        android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_borrar_uno"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="Delete"
+            android:textColor="@color/white"
+            android:enabled="true"
+            android:background="@drawable/button_gray_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_division"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="/"
+            android:textColor="@color/white"
+            android:enabled="true"
+            android:background="@drawable/button_aqua_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_multiplicacion"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="*"
+            android:textColor="@color/white"
+            android:enabled="true"
+            android:background="@drawable/button_aqua_background" />
+    </LinearLayout>
+
+    <!-- Layout para la tercera fila de botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="("
-        android:enabled="true"
-        android:background="@drawable/button_black_background"
-        app:layout_constraintTop_toBottomOf="@id/resultado"
-        app:layout_constraintStart_toEndOf="@id/btn_raiz"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/terceraFila"
+        app:layout_constraintTop_toBottomOf="@id/segundaFila"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_7"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="7"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_parentesis_cerrado"
-        android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_8"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="8"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_9"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="9"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_resta"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="-"
+            android:textColor="@color/white"
+            android:enabled="true"
+            android:background="@drawable/button_aqua_background" />
+    </LinearLayout>
+
+    <!-- Layout para la cuarta fila de botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=")"
-        android:enabled="true"
-        android:background="@drawable/button_black_background"
-        app:layout_constraintTop_toBottomOf="@id/resultado"
-        app:layout_constraintStart_toEndOf="@id/btn_parentesis_abierto"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/cuartaFila"
+        app:layout_constraintTop_toBottomOf="@id/terceraFila"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_4"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="4"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_5"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="5"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
 
-    <!--LAYOUT PARA LA SEGUNDA FILA DE BOTONES-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_6"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="6"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_suma"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="+"
+            android:textColor="@color/white"
+            android:enabled="true"
+            android:background="@drawable/button_aqua_background" />
+    </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_borrar_todo"
-        android:layout_width="wrap_content"
+    <!-- Layout para la quinta fila de botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ac"
-        android:enabled="true"
-        android:background="@drawable/button_gray_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/quintaFila"
+        app:layout_constraintTop_toBottomOf="@id/cuartaFila"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_1"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="1"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_borrar_uno"
-        android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_2"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="2"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_3"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="3"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_igual"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="="
+            android:textColor="@color/white"
+            android:enabled="true"
+            android:background="@drawable/button_aqua_background" />
+    </LinearLayout>
+
+    <!-- Layout para la sexta fila de botones -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Delete"
-        android:enabled="true"
-        android:background="@drawable/button_gray_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
-        app:layout_constraintStart_toEndOf="@id/btn_borrar_todo"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:id="@+id/sextaFila"
+        app:layout_constraintTop_toBottomOf="@id/quintaFila"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_0"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="2"
+            android:text="0"
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_division"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="/"
-        android:enabled="true"
-        android:background="@drawable/button_aqua_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
-        app:layout_constraintStart_toEndOf="@id/btn_borrar_uno"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_multiplicacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="*"
-        android:enabled="true"
-        android:background="@drawable/button_aqua_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
-        app:layout_constraintStart_toEndOf="@id/btn_division"/>
-
-
-
-    <!--LAYOUT PARA LA TERCER FILA DE BOTONES-->
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="7"
-        android:enabled="true"
-        android:background="@drawable/button_black_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="8"
-        android:enabled="true"
-        android:background="@drawable/button_black_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
-        app:layout_constraintStart_toEndOf="@id/btn_7"/>
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="9"
-        android:enabled="true"
-        android:background="@drawable/button_black_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
-        app:layout_constraintStart_toEndOf="@id/btn_8"/>
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_resta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="-"
-        android:enabled="true"
-        android:background="@drawable/button_aqua_background"
-        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
-        app:layout_constraintStart_toEndOf="@id/btn_9"/>
-
-
-    <!--LAYOUT PARA LA CUARTA FILA DE BOTONES-->
-
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_punto"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:text="."
+            android:textColor="@color/aqua"
+            android:enabled="true"
+            android:background="@drawable/button_black_background" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
