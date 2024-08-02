@@ -7,9 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:layout_marginHorizontal="30dp"
-    android:layout_marginVertical="80dp"
-
+    android:paddingHorizontal="30dp"
+    android:paddingVertical="80dp"
+    android:background="@drawable/fondo_degradado"
     >
 
 
@@ -22,13 +22,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/resultado"
-        android:layout_width="120dp"
-        android:layout_height="50dp"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:text="Resultado"
+        android:singleLine="true"
+        android:maxLines="1"
         app:layout_constraintTop_toBottomOf="@id/operacion"
         app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!--LAYOUT PARA LA PRIMERA FILA DE BOTONES-->
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_potencia"
@@ -38,7 +43,9 @@
         android:enabled="true"
         android:background="@drawable/button_black_background"
         app:layout_constraintTop_toBottomOf="@id/resultado"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_raiz"
@@ -66,7 +73,7 @@
         android:id="@+id/btn_parentesis_cerrado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="("
+        android:text=")"
         android:enabled="true"
         android:background="@drawable/button_black_background"
         app:layout_constraintTop_toBottomOf="@id/resultado"
@@ -74,6 +81,77 @@
         app:layout_constraintEnd_toEndOf="parent"
 
         />
+
+
+    <!--LAYOUT PARA LA SEGUNDA FILA DE BOTONES-->
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_borrar_todo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ac"
+        android:enabled="true"
+        android:background="@drawable/button_gray_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_borrar_uno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:enabled="true"
+        android:background="@drawable/button_gray_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
+        app:layout_constraintStart_toEndOf="@id/btn_borrar_todo"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_division"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="/"
+        android:enabled="true"
+        android:background="@drawable/button_aqua_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
+        app:layout_constraintStart_toEndOf="@id/btn_borrar_uno"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_multiplicacion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*"
+        android:enabled="true"
+        android:background="@drawable/button_aqua_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_potencia"
+        app:layout_constraintStart_toEndOf="@id/btn_division"/>
+
+
+
+    <!--LAYOUT PARA LA SEGUNDA FILA DE BOTONES-->
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7"
+        android:enabled="true"
+        android:background="@drawable/button_black_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8"
+        android:enabled="true"
+        android:background="@drawable/button_black_background"
+        app:layout_constraintTop_toBottomOf="@id/btn_borrar_todo"
+        app:layout_constraintStart_toStartOf=""/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
