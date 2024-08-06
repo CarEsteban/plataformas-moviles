@@ -16,14 +16,21 @@
         android:layout_width="200dp"
         android:layout_height="30dp"
         android:text="operacion"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@id/resultado"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/resultado"
-        android:layout_width="240dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="Resultado"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="80dp"
         app:layout_constraintBottom_toTopOf="@id/primeraFila"
         app:layout_constraintEnd_toEndOf="parent" />
 
