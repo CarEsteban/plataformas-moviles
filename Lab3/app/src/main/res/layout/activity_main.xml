@@ -202,16 +202,17 @@
             android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_resta"
+            android:id="@+id/btn_division"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
-            android:text="-"
-            android:textColor="@color/white"
-            android:enabled="true"
+            android:layout_weight="1"
             android:background="@drawable/button_aqua_background"
+            android:enabled="true"
+            android:text="/"
+            android:textColor="@color/white"
             android:textSize="24sp" />
+
     </LinearLayout>
 
     <!-- Layout para la cuarta fila de botones -->
@@ -265,13 +266,14 @@
             android:id="@+id/btn_suma"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_aqua_background"
+            android:enabled="true"
             android:text="+"
             android:textColor="@color/white"
-            android:enabled="true"
-            android:background="@drawable/button_aqua_background"
             android:textSize="24sp" />
+
     </LinearLayout>
 
     <!-- Layout para la quinta fila de botones -->
@@ -321,16 +323,17 @@
             android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_division"
+            android:id="@+id/btn_resta"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
-            android:textColor="@color/white"
+            android:layout_weight="1"
             android:background="@drawable/button_aqua_background"
-            android:text="/"
             android:enabled="true"
+            android:text="-"
+            android:textColor="@color/white"
             android:textSize="24sp" />
+
     </LinearLayout>
 
     <!-- Layout para la sexta fila de botones -->
@@ -348,7 +351,7 @@
             android:id="@+id/btn_0"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="0"
             android:textColor="@color/skyblue"
