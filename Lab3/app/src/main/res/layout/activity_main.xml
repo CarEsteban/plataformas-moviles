@@ -13,9 +13,9 @@
 
     <TextView
         android:id="@+id/operacion"
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:text="operacion"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:text=""
         android:layout_marginBottom="20dp"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -25,12 +25,12 @@
     <TextView
         android:id="@+id/resultado"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="Resultado"
+        android:layout_height="90dp"
+        android:text="0"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:layout_marginBottom="20dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginLeft="60dp"
         app:layout_constraintBottom_toTopOf="@id/primeraFila"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -52,9 +52,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="x^y"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_raiz"
@@ -63,9 +64,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="√x"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_parentesis_abierto"
@@ -74,9 +76,10 @@
             android:layout_weight="1"
             android:text="("
             android:layout_marginHorizontal="5dp"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_parentesis_cerrado"
@@ -85,9 +88,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text=")"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Layout para la segunda fila de botones -->
@@ -110,7 +114,8 @@
             android:text="Ac"
             android:textColor="@color/white"
             android:enabled="true"
-            android:background="@drawable/button_gray_background" />
+            android:background="@drawable/button_gray_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_borrar_uno"
@@ -118,21 +123,23 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
-            android:text="Delete"
+            android:text="del"
             android:textColor="@color/white"
             android:enabled="true"
-            android:background="@drawable/button_gray_background" />
+            android:background="@drawable/button_gray_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_division"
+            android:id="@+id/btn_punto"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
-            android:text="/"
-            android:textColor="@color/white"
+            android:text="."
+            android:textColor="@color/skyblue"
+            android:background="@drawable/button_black_background"
             android:enabled="true"
-            android:background="@drawable/button_aqua_background" />
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_multiplicacion"
@@ -143,7 +150,8 @@
             android:text="*"
             android:textColor="@color/white"
             android:enabled="true"
-            android:background="@drawable/button_aqua_background" />
+            android:background="@drawable/button_aqua_background"
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Layout para la tercera fila de botones -->
@@ -164,9 +172,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="7"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_8"
@@ -175,9 +184,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="8"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_9"
@@ -186,9 +196,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="9"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_resta"
@@ -199,7 +210,8 @@
             android:text="-"
             android:textColor="@color/white"
             android:enabled="true"
-            android:background="@drawable/button_aqua_background" />
+            android:background="@drawable/button_aqua_background"
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Layout para la cuarta fila de botones -->
@@ -220,9 +232,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="4"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_5"
@@ -231,9 +244,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="5"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_6"
@@ -242,9 +256,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="6"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_suma"
@@ -255,7 +270,8 @@
             android:text="+"
             android:textColor="@color/white"
             android:enabled="true"
-            android:background="@drawable/button_aqua_background" />
+            android:background="@drawable/button_aqua_background"
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Layout para la quinta fila de botones -->
@@ -275,9 +291,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="1"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_2"
@@ -286,9 +303,10 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="2"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_3"
@@ -297,20 +315,22 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
             android:text="3"
-            android:textColor="@color/aqua"
+            android:textColor="@color/skyblue"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_igual"
+            android:id="@+id/btn_division"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
-            android:text="="
             android:textColor="@color/white"
+            android:background="@drawable/button_aqua_background"
+            android:text="/"
             android:enabled="true"
-            android:background="@drawable/button_aqua_background" />
+            android:textSize="24sp" />
     </LinearLayout>
 
     <!-- Layout para la sexta fila de botones -->
@@ -324,7 +344,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_0"
             android:layout_width="wrap_content"
@@ -334,18 +353,20 @@
             android:text="0"
             android:textColor="@color/aqua"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_black_background"
+            android:textSize="24sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_punto"
+            android:id="@+id/btn_igual"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="5dp"
-            android:text="."
-            android:textColor="@color/aqua"
+            android:text="="
+            android:textColor="@color/white"
             android:enabled="true"
-            android:background="@drawable/button_black_background" />
+            android:background="@drawable/button_aqua_background"
+            android:textSize="24sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
