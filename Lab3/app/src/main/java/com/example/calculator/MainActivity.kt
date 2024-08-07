@@ -91,10 +91,9 @@ class MainActivity : AppCompatActivity() {
         btn2.setOnClickListener { agregarTexto("2") }
         btn3.setOnClickListener { agregarTexto("3") }
         btnIgual.setOnClickListener {
+            val textoOperar = resultado.text.toString()
 
-            val textoOperar = resultado.text.toString();
-
-            operacion.text = textoOperar;
+            operacion.text = textoOperar
 
             val operacionPostfix = Conversor.PostFixConversion(textoOperar)
             if (operacionPostfix == "Error") {
@@ -105,9 +104,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             primeraVez = true
-
-
-
         }
         btn0.setOnClickListener { agregarTexto("0") }
         btnPunto.setOnClickListener { agregarTexto(".") }
@@ -162,7 +158,7 @@ class Conversor {
 
         // Método para verificar si un carácter no es un dígito
         fun notNumeric(ch: Char): Boolean = when (ch) {
-            '+', '-', '*', '/', '(', ')', '^' -> true // Operadores y paréntesis no son numéricos
+            '+', '-', '*', '/', '(', ')', '^', '√' -> true // Operadores y paréntesis no son numéricos
             else -> false // Cualquier otro carácter se considera numérico
         }
 
@@ -170,11 +166,11 @@ class Conversor {
         fun operatorPrecedence(ch: Char): Int = when (ch) {
             '+', '-' -> 1 // Suma y resta tienen la precedencia más baja
             '*', '/' -> 2 // Multiplicación y división tienen precedencia intermedia
-            '^' -> 3 // La exponenciación tiene la precedencia más alta
+            '^', '√' -> 3 // La exponenciación y la raíz cuadrada tienen la precedencia más alta
             else -> -1 // Cualquier otro carácter tiene precedencia inválida
         }
 
-        // Funciónes de extensión
+        // Funciones de extensión
         fun <T> ArrayDeque<T>.push(element: T) = addLast(element)
         fun <T> ArrayDeque<T>.pop() = removeLastOrNull()
         fun <T> ArrayDeque<T>.peek() = lastOrNull()
