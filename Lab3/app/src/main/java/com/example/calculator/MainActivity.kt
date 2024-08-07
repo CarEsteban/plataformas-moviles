@@ -1,5 +1,6 @@
 package com.example.calculator
 
+import OperarPostfix
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -95,8 +96,14 @@ class MainActivity : AppCompatActivity() {
 
             operacion.text = textoOperar;
 
+            val operacionPostfix = Conversor.PostFixConversion(textoOperar)
+            if (operacionPostfix == "Error") {
+                resultado.text = "Error:404"
+            } else {
+                val resultadoOperacion = OperarPostfix(operacionPostfix)
+                resultado.text = resultadoOperacion.mostrarResultado()
+            }
 
-            resultado.text = "0"
             primeraVez = true
 
 
