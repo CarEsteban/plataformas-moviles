@@ -45,7 +45,7 @@ fun Calculadora(modifier: Modifier = Modifier){
         DisplayCalculadora(resultado, operacion)
         Row {
             Button(onClick = { /*TODO*/ }) {
-                Text(text = "X^Y")
+                Text(text = "X^y")
             }
             Button(onClick = { /*TODO*/ }) {
                 Text(text = "√X")
