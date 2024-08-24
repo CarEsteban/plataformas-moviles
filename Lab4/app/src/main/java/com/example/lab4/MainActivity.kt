@@ -148,64 +148,62 @@ fun Calculadora(
 }
 
 @Composable
-fun DisplayCalculadora(operacion: String,resultado: String){
-    Card (
+fun DisplayCalculadora(operacion: String, resultado: String) {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 20.dp)
     ) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalAlignment = Alignment.End
         ) {
-
             Text(
                 text = operacion,
                 modifier = Modifier
                     .fillMaxWidth(),
-                //fuerza a alinearlo
                 textAlign = androidx.compose.ui.text.style.TextAlign.End
             )
             Text(
                 text = resultado,
                 modifier = Modifier
                     .fillMaxWidth(),
-                //fuerza a alinearlo
-                textAlign = androidx.compose.ui.text.style.TextAlign.End
 
+                textAlign = androidx.compose.ui.text.style.TextAlign.End
             )
         }
     }
 }
+
 @Composable
 fun BotonCustom(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
-){
+) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color.White,
             contentColor = Color.Black
         ),
-        border = BorderStroke(1.dp, Color.Black),
         shape = RoundedCornerShape(12.dp),
+        elevation = ButtonDefaults.buttonElevation(
+            defaultElevation = 8.dp,
+            pressedElevation = 12.dp,
+            disabledElevation = 0.dp   
+        ),
         modifier = modifier
-            .then(
-                if (modifier == Modifier) {
-                    Modifier.width(80.dp).height(80.dp)
-                } else {
-                    Modifier
-                }
-            )
+            .width(80.dp)
+            .height(80.dp)
             .padding(bottom = 5.dp)
     ) {
         Text(text = text)
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DisplayCalculadoraPreview(){
