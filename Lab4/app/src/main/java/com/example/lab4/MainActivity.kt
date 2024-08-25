@@ -15,13 +15,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.lab4.ui.theme.Lab4Theme
 
 class MainActivity : ComponentActivity() {
@@ -146,32 +146,36 @@ fun Calculadora(
         }
     }
 }
-
 @Composable
 fun DisplayCalculadora(operacion: String, resultado: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 20.dp)
+            .padding(bottom = 20.dp),
+        shape = RoundedCornerShape(10.dp),  // Bordes redondeados
+        elevation = CardDefaults.cardElevation(2.dp),  // Elevación usando CardDefaults
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color(0xFFFFF1E3))
                 .padding(16.dp),
             horizontalAlignment = Alignment.End
         ) {
             Text(
                 text = operacion,
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = androidx.compose.ui.text.style.TextAlign.End
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = androidx.compose.ui.text.style.TextAlign.End,
+                color = Color.DarkGray,  // Color gris para la operación
+                fontSize = 20.sp  // Tamaño de texto más grande
             )
             Text(
                 text = resultado,
-                modifier = Modifier
-                    .fillMaxWidth(),
-
-                textAlign = androidx.compose.ui.text.style.TextAlign.End
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = androidx.compose.ui.text.style.TextAlign.End,
+                color = Color.Gray,  // Color negro para el resultado
+                fontSize = 36.sp,  // Tamaño más grande para el resultado
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold  // Negrita para resaltar
             )
         }
     }
