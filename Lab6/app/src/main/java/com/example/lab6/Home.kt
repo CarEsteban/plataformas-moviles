@@ -122,21 +122,57 @@ fun Home(
                                 .size(24.dp),
                             tint = Color.White
                         )
-                        Row (
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                        ){
-
-                        }
                     }
+
                 }
             }
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+            ){
+                val rating: Float = 3.5f
+
+                val fullStars = rating.toInt()
+
+                val hasHalfStar = (rating-fullStars)>=0.5
+
+                // Dibuja estrellas llenas
+                for (i in 1..fullStars) {
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "Star",
+                        tint = Color(0xFFFFD700), // Color dorado
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+
+                // Dibuja una media estrella si es necesario
+                if (hasHalfStar) {
+                    Icon(
+                        imageVector = Icons.Filled.StarHalf,
+                        contentDescription = "Half Star",
+                        tint = Color(0xFFFFD700),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+
+                // Dibuja estrellas vacías para completar 5
+                val emptyStars = if (hasHalfStar) 5 - fullStars - 1 else 5 - fullStars
+                for (i in 1..emptyStars) {
+                    Icon(
+                        imageVector = Icons.Outlined.StarOutline,
+                        contentDescription = "Empty Star",
+                        tint = Color(0xFFFFD700),
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
+
         }
         Column {
             Row {
                 
             }
-            Text(text = "lorem")
         }
     }
 }
