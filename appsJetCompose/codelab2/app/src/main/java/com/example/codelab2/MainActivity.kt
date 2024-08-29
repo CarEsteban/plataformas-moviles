@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Codelab2Theme {
-
+                MySootheAppPortrait()
             }
         }
     }
