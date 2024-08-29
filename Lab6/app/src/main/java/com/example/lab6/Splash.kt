@@ -29,7 +29,9 @@ fun Splash(modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(id = R.drawable.pizza),
             contentDescription = "Imagen de fondo",
-            modifier = Modifier.fillMaxSize().alpha(0.2f),
+            modifier = Modifier
+                .fillMaxSize()
+                .alpha(0.2f),
             contentScale = ContentScale.Crop
         )
         Image(
@@ -39,6 +41,13 @@ fun Splash(modifier: Modifier = Modifier) {
                 .size(200.dp)
                 .align(Alignment.Center)
                 .offset(y = (-80).dp)
+        )
+        Image(painter = painterResource(id = R.drawable.letras_titulo),
+            contentDescription = "Titulo",
+            modifier = Modifier
+                .size(200.dp)
+                .align(Alignment.Center)
+                .offset(y = (100).dp)
         )
     }
 }
