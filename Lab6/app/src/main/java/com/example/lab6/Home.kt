@@ -2,6 +2,7 @@ package com.example.lab6
 
 import android.widget.Space
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,8 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -33,19 +36,23 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material.icons.filled.StarHalf
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.data.Group
+import kotlinx.coroutines.internal.OpDescriptor
 
+
+
+val robotoFontFamily = FontFamily(
+    Font(R.font.roboto_bold, FontWeight.Bold)
+)
 
 @Composable
 fun Home(
     modifier: Modifier = Modifier
 ){
-
-    val robotoFontFamily = FontFamily(
-        Font(R.font.roboto_bold, FontWeight.Bold)
-    )
 
     Column (
         modifier = Modifier.fillMaxSize()
@@ -106,71 +113,18 @@ fun Home(
                 modifier = Modifier
             ){
                 item {
-                    Box(
+                    BoxProduct(
                         modifier = Modifier
                             .size(250.dp)
-                            .clip(RoundedCornerShape(20.dp))
-                    ){
-                        Image(
-                            painter = painterResource(id = R.drawable.costilla),
-                            contentDescription = "costilla",
-                            modifier = Modifier
-                                .fillMaxSize()
-                        )
-                        Icon(
-                            imageVector = Icons.Filled.FavoriteBorder,
-                            contentDescription = "favorite",
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(16.dp)
-                                .size(24.dp),
-                            tint = Color.White
-                        )
-                    }
-
-                }
-            }
-            Row (
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 10.dp)
-            ){
-                val rating: Float = 5f
-
-                val fullStars = rating.toInt()
-
-                val hasHalfStar = (rating-fullStars)>=0.5
-
-                // Dibuja estrellas llenas
-                for (i in 1..fullStars) {
-                    Icon(
-                        imageVector = Icons.Filled.Star,
-                        contentDescription = "Star",
-                        tint = Color(0xFFFFD700), // Color dorado
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-
-                // Dibuja una media estrella si es necesario
-                if (hasHalfStar) {
-                    Icon(
-                        imageVector = Icons.Filled.StarHalf,
-                        contentDescription = "Half Star",
-                        tint = Color(0xFFFFD700),
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-
-                // Dibuja estrellas vacías para completar 5
-                val emptyStars = if (hasHalfStar) 5 - fullStars - 1 else 5 - fullStars
-                for (i in 1..emptyStars) {
-                    Icon(
-                        imageVector = Icons.Outlined.StarOutline,
-                        contentDescription = "Empty Star",
-                        tint = Color(0xFFFFD700),
-                        modifier = Modifier.size(20.dp)
+                            .clip(RoundedCornerShape(20.dp)),
+                        painter = painterResource(id = R.drawable.costilla),
+                        contentDescription = "costilla"
                     )
                 }
             }
+
+            Stars(modifier,3.5f)
+
             Text(
                 text = "Prime Rib Roast",
                 modifier = Modifier
@@ -234,6 +188,255 @@ fun Home(
                 color = Color.Gray,
                 textAlign = TextAlign.Center
 
+            )
+        }
+    }
+}
+
+
+@Composable
+fun Product(
+    modifier: Modifier
+){
+    LazyColumn (
+        modifier = Modifier.fillMaxSize()
+    ){
+        item {
+            BoxProduct(
+                modifier = Modifier
+                    .height(250.dp)
+                    .fillMaxWidth()
+                    .background(color = Color.Blue),
+                painter = painterResource(id = R.drawable.costilla),
+                contentDescription = "costilla"
+            )
+            Stars(modifier,3.5f)
+
+
+            Text(
+                text = "Prime Rib Roast",
+                modifier = Modifier
+                    .padding(top = 40.dp)
+                    .fillMaxWidth(),
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF19597D),
+                fontSize = 22.sp,
+                textAlign = TextAlign.Center
+
+            )
+            Text(
+                text = "The Prime Rib Roast is a classic and tender cut of beef taken from the rib primal cut.  Learn how to make the perfect prime rib roast to serve your family and friends.  Check out What’s Cooking America’s award-winning Classic Prime Rib Roast recipe and photo tutorial to help you make the Perfect Prime Rib Roast.",
+                modifier = Modifier
+                    .padding(30.dp)
+                    .fillMaxWidth(),
+                fontSize = 18.sp,
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.Light,
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+
+            )
+        }
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.shopping),
+                    contentDescription = "shopping",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            Text(
+                text = "SHOPPING LIST",
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF19597D),
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center
+
+            )
+
+            Text(
+                text = "1 Prime Rib Roast (standing rib), approximately 8 pounds\n" +
+                        "1/2 cup good-quality balsamic vinegar\n" +
+                        "1 cup (packed) Italian parsley leaves\n" +
+                        "8 cloves garlic, minced\n" +
+                        "1/4 teaspoon salt \n" +
+                        "Freshly ground pepper to taste\n" +
+                        "Salt to taste\n" +
+                        "1 cup water\n" +
+                        "3 drops Worcestershire sauce",
+                modifier = Modifier
+                    .padding(30.dp)
+                    .fillMaxWidth(),
+                fontSize = 18.sp,
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.Light,
+                color = Color.Gray,
+                textAlign = TextAlign.Start
+
+            )
+        }
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.preparation),
+                    contentDescription = "preparation",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            Text(
+                text = "PREPARATION",
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF19597D),
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center
+
+            )
+
+            Text(
+                text = "1) Preheat oven to 350 degrees F.  Let roast stand at room temperature for 1 hour.\n\n" +
+                        "2) In a small saucepan over medium-high heat, boil balsamic vinegar until it reduces to 1/4 cup, approximately 3 minutes.  Remove from heat and set aside.\n\n" +
+                        "3) Finely mince the parsley.  Mix together with the minced garlic, 1/4 teaspoon salt, and a generous amount of pepper.  Using the tip of a sharp knife, bore 7 to 10 narrow holes, each about 1 1/2\" deep, in the rib roast.  Fill the holes with the parsley-garlic mixture.  Spread any remaining mixture over the surface of the roast.  Sprinkle all sides of the meat with salt and pepper.\n\n" +
+                        "4) After slicing the roast, add any accumulated meat juices to the balsamic sauce.  Serve the meat slices on warmed plates with balsamic sauce on the side.\n",
+                modifier = Modifier
+                    .padding(30.dp)
+                    .fillMaxWidth(),
+                fontSize = 18.sp,
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.Light,
+                color = Color.Gray,
+                textAlign = TextAlign.Start
+
+            )
+        }
+
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.comments_circle),
+                    contentDescription = "preparation",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .align(Alignment.Center)
+                )
+            }
+
+            Text(
+                text = "COMMENTS",
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF19597D),
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center
+
+            )
+
+        }
+    }
+}
+
+
+@Composable
+fun BoxProduct(
+    modifier: Modifier,
+    painter: Painter,
+    contentDescription: String
+){
+    Box(
+        modifier
+    ){
+        Image(
+            painter = painter,
+            contentDescription = contentDescription,
+            modifier = Modifier
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+        Icon(
+            imageVector = Icons.Filled.FavoriteBorder,
+            contentDescription = "favorite",
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+                .size(24.dp),
+            tint = Color.White
+        )
+    }
+}
+
+@Composable
+fun Stars(
+    modifier: Modifier,
+    countStars: Float
+){
+    Row (
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
+    ){
+        val rating: Float = countStars
+
+        val fullStars = rating.toInt()
+
+        val hasHalfStar = (rating-fullStars)>=0.5
+
+        // Dibuja estrellas llenas
+        for (i in 1..fullStars) {
+            Icon(
+                imageVector = Icons.Filled.Star,
+                contentDescription = "Star",
+                tint = Color(0xFFFFD700), // Color dorado
+                modifier = Modifier.size(20.dp)
+            )
+        }
+
+        // Dibuja una media estrella si es necesario
+        if (hasHalfStar) {
+            Icon(
+                imageVector = Icons.Filled.StarHalf,
+                contentDescription = "Half Star",
+                tint = Color(0xFFFFD700),
+                modifier = Modifier.size(20.dp)
+            )
+        }
+
+        // Dibuja estrellas vacías para completar 5
+        val emptyStars = if (hasHalfStar) 5 - fullStars - 1 else 5 - fullStars
+        for (i in 1..emptyStars) {
+            Icon(
+                imageVector = Icons.Outlined.StarOutline,
+                contentDescription = "Empty Star",
+                tint = Color(0xFFFFD700),
+                modifier = Modifier.size(20.dp)
             )
         }
     }
