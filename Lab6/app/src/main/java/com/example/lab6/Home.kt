@@ -1,5 +1,6 @@
 package com.example.lab6
 
+import android.media.Image
 import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -123,7 +124,7 @@ fun Home(
                 }
             }
 
-            Stars(modifier,3.5f)
+            Stars(modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
 
             Text(
                 text = "Prime Rib Roast",
@@ -210,7 +211,8 @@ fun Product(
                 painter = painterResource(id = R.drawable.costilla),
                 contentDescription = "costilla"
             )
-            Stars(modifier,3.5f)
+
+            Stars(modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
 
 
             Text(
@@ -360,6 +362,28 @@ fun Product(
 
             )
 
+            PersonalComment(
+                modifier = Modifier
+                    .padding(bottom = 30.dp),
+                "TOM KLEIN",
+                2.5f,
+                "This prime rib roast was amazing!!!",
+                painterResource(R.drawable.photo1),
+                "7.01.2017"
+            )
+
+
+            PersonalComment(
+                modifier = Modifier
+                    .padding(bottom = 30.dp),
+                "SALLY PARKER",
+                3.5f,
+                "I was amazed at how little preparation this took. Just rub on the herbs and butter, let it sit for a few hours and you have an amazing piece of meat!",
+                painterResource(R.drawable.photo2),
+                "7.01.2017"
+            )
+
+            Spacer(modifier = Modifier.padding(bottom = 100.dp))
         }
     }
 }
@@ -396,12 +420,13 @@ fun BoxProduct(
 @Composable
 fun Stars(
     modifier: Modifier,
-    countStars: Float
+    countStars: Float,
+    fillMaxWidth: Boolean=true
 ){
     Row (
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = Modifier.padding(top = 10.dp).fillMaxWidth()
+        horizontalArrangement = Arrangement.Center ,
+        modifier = if (fillMaxWidth) modifier.padding(top = 10.dp).fillMaxWidth() else modifier.padding(top = 10.dp)
     ){
         val rating: Float = countStars
 
@@ -437,6 +462,78 @@ fun Stars(
                 contentDescription = "Empty Star",
                 tint = Color(0xFFFFD700),
                 modifier = Modifier.size(20.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun PersonalComment(
+    modifier: Modifier,
+    name: String,
+    starts: Float,
+    comment: String,
+    profilePhoto: Painter,
+    date: String,
+    contentDescription:String = "profilePhoto"
+){
+    Row (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 25.dp)
+            .padding(start = 30.dp)
+            .padding(end = 50.dp),
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.Start
+    ){
+        Image(
+            painter = profilePhoto,
+            contentDescription = contentDescription,
+            modifier = Modifier
+                .size(60.dp)
+        )
+        Spacer(modifier = Modifier.padding(horizontal = 10.dp))
+        Column {
+            Stars(modifier = Modifier, countStars = starts, fillMaxWidth = false)
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Text(
+                    text = name,
+                    modifier = Modifier
+                        .padding(top = 10.dp),
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.Black,
+                    fontSize = 20.sp
+
+                )
+
+                Text(
+                    text = date,
+                    modifier = Modifier
+                        .padding(top = 10.dp),
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Color.Gray
+                )
+
+
+            }
+            Spacer(modifier = Modifier.padding(vertical = 5.dp))
+            Text(
+                text = comment,
+                modifier = Modifier
+                    .padding(bottom = 10.dp)
+                    .fillMaxWidth(),
+                fontFamily = robotoFontFamily,
+                color = Color.Gray,
+                fontSize = 16.sp
+
             )
         }
     }
