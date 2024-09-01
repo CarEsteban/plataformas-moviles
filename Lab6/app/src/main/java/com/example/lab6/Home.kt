@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material.icons.filled.StarHalf
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.data.Group
 
 
 @Composable
@@ -49,7 +52,8 @@ fun Home(
     ) {
         Row (
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(top = 30.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
 
@@ -128,9 +132,9 @@ fun Home(
             }
             Row (
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
+                modifier = Modifier.padding(top = 10.dp)
             ){
-                val rating: Float = 3.5f
+                val rating: Float = 5f
 
                 val fullStars = rating.toInt()
 
@@ -167,12 +171,70 @@ fun Home(
                     )
                 }
             }
+            Text(
+                text = "Prime Rib Roast",
+                modifier = Modifier
+                    .padding(vertical = 20.dp),
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF19597D),
+                fontSize = 20.sp
 
-        }
-        Column {
-            Row {
-                
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(0.6f),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.tiempo),
+                        contentDescription = "tiempo",
+                        modifier = Modifier
+                            .size(15.dp),
+                        tint = Color.Red
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 3.dp))
+                    Text(text = "5HR")
+                }
+
+                Row (verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.favorite),
+                        contentDescription = "favorito",
+                        modifier = Modifier
+                            .size(15.dp),
+                        tint = Color.Red
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 3.dp))
+                    Text(text = "685")
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.comments),
+                        contentDescription = "comentarios",
+                        modifier = Modifier
+                            .size(15.dp),
+                        tint = Color.Red
+                    )
+                    Spacer(modifier = Modifier.padding(horizontal = 3.dp))
+                    Text(text = "107")
+                }
             }
+            Text(
+                text = "The Prime Rib Roast is a classic and tender cut of beef taken from the rib primal cut.  Learn how to make the perfect prime rib roast to serve your family and friends.  Check out What’s Cooking America’s award-winning Classic Prime Rib Roast recipe and photo tutorial to help you make the Perfect Prime Rib Roast.",
+                modifier = Modifier
+                    .padding(30.dp)
+                    .fillMaxWidth(),
+                fontSize = 16.sp,
+                fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.Light,
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+
+            )
         }
     }
 }
