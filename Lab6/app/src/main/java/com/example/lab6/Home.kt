@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -114,17 +115,11 @@ fun Home(
                 modifier = Modifier
             ){
                 item {
-                    BoxProduct(
-                        modifier = Modifier
-                            .size(250.dp)
-                            .clip(RoundedCornerShape(20.dp)),
-                        painter = painterResource(id = R.drawable.costilla),
-                        contentDescription = "costilla"
-                    )
+                    CarouselBoxes()
                 }
             }
 
-            Stars(modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
+            Stars(1,modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
 
             Text(
                 text = "Prime Rib Roast",
@@ -195,6 +190,11 @@ fun Home(
 }
 
 
+
+
+
+
+
 @Composable
 fun Product(
     modifier: Modifier
@@ -212,7 +212,7 @@ fun Product(
                 contentDescription = "costilla"
             )
 
-            Stars(modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
+            Stars(2,modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
 
 
             Text(
@@ -389,83 +389,6 @@ fun Product(
 }
 
 
-@Composable
-fun BoxProduct(
-    modifier: Modifier,
-    painter: Painter,
-    contentDescription: String
-){
-    Box(
-        modifier
-    ){
-        Image(
-            painter = painter,
-            contentDescription = contentDescription,
-            modifier = Modifier
-                .fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Icon(
-            imageVector = Icons.Filled.FavoriteBorder,
-            contentDescription = "favorite",
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(16.dp)
-                .size(24.dp),
-            tint = Color.White
-        )
-    }
-}
-
-@Composable
-fun Stars(
-    modifier: Modifier,
-    countStars: Float,
-    fillMaxWidth: Boolean=true
-){
-    Row (
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center ,
-        modifier = if (fillMaxWidth) modifier.padding(top = 10.dp).fillMaxWidth() else modifier.padding(top = 10.dp)
-    ){
-        val rating: Float = countStars
-
-        val fullStars = rating.toInt()
-
-        val hasHalfStar = (rating-fullStars)>=0.5
-
-        // Dibuja estrellas llenas
-        for (i in 1..fullStars) {
-            Icon(
-                imageVector = Icons.Filled.Star,
-                contentDescription = "Star",
-                tint = Color(0xFFFFD700), // Color dorado
-                modifier = Modifier.size(20.dp)
-            )
-        }
-
-        // Dibuja una media estrella si es necesario
-        if (hasHalfStar) {
-            Icon(
-                imageVector = Icons.Filled.StarHalf,
-                contentDescription = "Half Star",
-                tint = Color(0xFFFFD700),
-                modifier = Modifier.size(20.dp)
-            )
-        }
-
-        // Dibuja estrellas vacías para completar 5
-        val emptyStars = if (hasHalfStar) 5 - fullStars - 1 else 5 - fullStars
-        for (i in 1..emptyStars) {
-            Icon(
-                imageVector = Icons.Outlined.StarOutline,
-                contentDescription = "Empty Star",
-                tint = Color(0xFFFFD700),
-                modifier = Modifier.size(20.dp)
-            )
-        }
-    }
-}
 
 @Composable
 fun PersonalComment(
@@ -494,7 +417,7 @@ fun PersonalComment(
         )
         Spacer(modifier = Modifier.padding(horizontal = 10.dp))
         Column {
-            Stars(modifier = Modifier, countStars = starts, fillMaxWidth = false)
+            Stars(3,modifier = Modifier, countStars = starts, fillMaxWidth = false)
             Row (
                 modifier = Modifier
                     .fillMaxWidth(),

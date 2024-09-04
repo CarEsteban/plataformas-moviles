@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab6Theme {
                 Scaffold(modifier = Modifier.fillMaxSize().padding(top = 35.dp) ) { innerPadding ->
-                    Product(modifier = Modifier.padding(innerPadding))
+                    Home(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
