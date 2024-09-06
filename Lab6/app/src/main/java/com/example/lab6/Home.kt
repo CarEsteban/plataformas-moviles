@@ -111,13 +111,9 @@ fun Home(
                 Text(text = "DESSERT")
             }
             Spacer(modifier = Modifier.padding(vertical = 12.dp))
-            LazyRow (
-                modifier = Modifier
-            ){
-                item {
-                    CarouselBoxes()
-                }
-            }
+
+            CarouselBoxes()
+
 
             Stars(1,modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
 

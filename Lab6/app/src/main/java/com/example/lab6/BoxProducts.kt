@@ -1,18 +1,14 @@
 package com.example.lab6
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
@@ -25,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 
@@ -109,43 +104,40 @@ fun Stars(
         }
     }
 }
-
-val images = listOf(
-    R.drawable.costilla,
-    R.drawable.sopa,
-    R.drawable.pizza
-)
 @Composable
 fun CarouselBoxes() {
     val images = listOf(
-        R.drawable.costilla,
+        R.drawable.carne,
         R.drawable.sopa,
-        R.drawable.pizza
+        R.drawable.pizza,
+        R.drawable.panqueques,
+        R.drawable.galleta,
+        R.drawable.costilla
     )
 
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
     ) {
-        items(images) { image ->
-            CardContent(image)
+        items(images.size) { index ->
+            CardContent(images[index])
         }
     }
 }
 
 @Composable
-fun CardContent(image: Int) {
+fun CardContent(imageRes: Int) {
     Box(
         modifier = Modifier
-            .padding(16.dp)
-            .size(200.dp) // Set the size of the card
+            .padding(vertical = 16.dp)
+            .padding(horizontal = 80.dp)
+            .size(250.dp)
     ) {
         Image(
-            painter = painterResource(id = image),
+            painter = painterResource(id = imageRes),
             contentDescription = "Image",
             modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop // Fit image in card
+            contentScale = ContentScale.Crop
         )
         Icon(
             imageVector = Icons.Filled.FavoriteBorder,
@@ -158,4 +150,6 @@ fun CardContent(image: Int) {
         )
     }
 }
+
+
 
