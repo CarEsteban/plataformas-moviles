@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                         .padding(top = 40.dp)
                 ) { innerPadding ->
                     // Pass showMenu state and the function to toggle it
-                    if (showMenu) {
+                    /*if (showMenu) {
                         MenuDesplegable(
                             modifier = Modifier.padding(innerPadding),
                             onMenuButtonClick = { showMenu = !showMenu }
@@ -44,7 +44,8 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(innerPadding),
                             onMenuButtonClick = { showMenu = !showMenu }
                         )
-                    }
+                    }*/
+                    Product(modifier =  Modifier.padding(innerPadding))
                 }
             }
         }
