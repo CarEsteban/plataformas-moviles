@@ -28,8 +28,33 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun Product(
-    modifier: Modifier
+    modifier: Modifier,
+    ID: Int
 ){
+    val images = listOf(
+        R.drawable.carne,
+        R.drawable.sopa,
+        R.drawable.pizza,
+        R.drawable.panqueques,
+        R.drawable.galleta,
+        R.drawable.costilla
+    )
+    val titles = listOf(
+        "Grilled Steak Perfection",
+        "Hearty Vegetable Soup",
+        "Classic Margherita Pizza",
+        "Fluffy Pancakes with Syrup",
+        "Chocolate Chip Cookies",
+        "Prime Rib Roast"
+    )
+    val descriptions = listOf(
+        "A perfectly seasoned steak, grilled to your preferred doneness. Marinated in olive oil, garlic, and rosemary, this steak is tender on the inside and beautifully seared on the outside. Serve with grilled vegetables or a side of mashed potatoes for a hearty meal.",
+        "A warming and nutritious soup filled with fresh vegetables like carrots, celery, potatoes, and tomatoes. Simmered in a flavorful broth with herbs like thyme and bay leaf, this soup is both comforting and healthy. Ideal for a light dinner or as a starter.",
+        "A simple yet delicious pizza made with a crispy homemade dough, topped with fresh tomato sauce, mozzarella cheese, and basil leaves. Drizzled with olive oil, this pizza delivers the perfect balance of flavors, making it a favorite for all pizza lovers.",
+        "Soft, golden-brown pancakes that melt in your mouth. These pancakes are light and fluffy, made with a simple batter of flour, eggs, milk, and butter. Serve with warm maple syrup and a dollop of whipped cream for the perfect breakfast treat.",
+        "Chocolate Chip Cookies",
+        "The Prime Rib Roast is a classic and tender cut of beef taken from the rib primal cut.  Learn how to make the perfect prime rib roast to serve your family and friends.  Check out What’s Cooking America’s award-winning Classic Prime Rib Roast recipe and photo tutorial to help you make the Perfect Prime Rib Roast."
+    )
     LazyColumn (
         modifier = Modifier.fillMaxSize()
     ){
