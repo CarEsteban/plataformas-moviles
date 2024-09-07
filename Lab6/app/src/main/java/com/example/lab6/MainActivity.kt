@@ -26,15 +26,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Lab6Theme {
-                var showMenu by remember { mutableStateOf(false) } // State to control the menu
+                var showMenu by remember { mutableStateOf(false) }
 
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = 40.dp)
                 ) { innerPadding ->
-                    // Pass showMenu state and the function to toggle it
-                    /*if (showMenu) {
+                    if (showMenu) {
                         MenuDesplegable(
                             modifier = Modifier.padding(innerPadding),
                             onMenuButtonClick = { showMenu = !showMenu }
@@ -44,8 +43,8 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(innerPadding),
                             onMenuButtonClick = { showMenu = !showMenu }
                         )
-                    }*/
-                    Product(modifier =  Modifier.padding(innerPadding), 1)
+                    }
+                    //Product(modifier =  Modifier.padding(innerPadding), 1)
                 }
             }
         }
