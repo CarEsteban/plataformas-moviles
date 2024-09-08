@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.outlined.StarOutline
+import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,26 +82,110 @@ fun BoxProduct(
 
 @Composable
 fun FavoriteScreen(onDismiss: () -> Unit) {
-    // Mostrar el contenido de la pantalla de favoritos
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("Welcome to Favorite Screen")
-            Spacer(modifier = Modifier.height(20.dp))
-            // Botón para volver atrás
-            Icon(
-                imageVector = Icons.Filled.Favorite,
-                contentDescription = "Close Favorite Screen",
-                modifier = Modifier
-                    .size(50.dp)
-                    .clickable { onDismiss() }, // Cerrar pantalla
-                tint = Color.Red
+    // Diálogo con fondo desenfocado
+    Dialog(onDismissRequest = { onDismiss() }) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            // Imagen de fondo
+            Image(
+                painter = painterResource(id = R.drawable.pantallafavorito), // Imagen de fondo
+                contentDescription = "Imagen de fondo",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
+            // Caja blanca centrada
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(300.dp, 250.dp)
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .padding(16.dp)
+            ) {
+                // Columna para los elementos del cuadro
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    // Botón para cerrar el diálogo
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        Image(
+                            painter = painterResource(id = R.drawable.cruz), // Imagen de la cruz en drawable
+                            contentDescription = "Cerrar",
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .size(24.dp) // Tamaño del icono de cierre
+                                .clickable { onDismiss() } // Al hacer clic, cierra el diálogo
+                        )
+                    }
+
+                    // Texto principal
+                    Text(
+                        text = "YOU DID IT!",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                        color = Color.Black
+                    )
+                    Text(
+                        text = "Let your friends know about it",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+
+                    // Iconos de redes sociales
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    ) {
+                        val socialIcons = listOf(
+                            R.drawable.google_icon, // Asegúrate de tener los íconos correctos
+                            R.drawable.facebook,
+                            R.drawable.instagram,
+                            R.drawable.twitter
+                        )
+                        socialIcons.forEach { icon ->
+                            Image(
+                                painter = painterResource(id = icon),
+                                contentDescription = "Social icon",
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    }
+
+                    // Calificación (Dejar una reseña con estrellas)
+                    Text(
+                        text = "Leave a review",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(top = 8.dp)
+                    ) {
+                        repeat(5) {
+                            Icon(
+                                imageVector = Icons.Outlined.StarBorder, // Estrella vacía
+                                contentDescription = "Empty Star",
+                                tint = Color.Gray,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
+
+
 
 
 @Composable
