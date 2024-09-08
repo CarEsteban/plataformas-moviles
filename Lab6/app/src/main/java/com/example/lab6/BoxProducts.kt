@@ -1,36 +1,58 @@
 package com.example.lab6
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 
 
 @Composable
 fun BoxProduct(
     modifier: Modifier,
     painter: Painter,
-    contentDescription: String
+    contentDescription: String,
+    onFavoriteClick: () -> Unit,
+    onProductClick: (() -> Unit)? = null
 ){
+    var isFavorite by remember { mutableStateOf(false) }
     Box(
         modifier
     ){
@@ -42,14 +64,41 @@ fun BoxProduct(
             contentScale = ContentScale.Crop
         )
         Icon(
-            imageVector = Icons.Filled.FavoriteBorder,
+            imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
             contentDescription = "favorite",
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp)
-                .size(24.dp),
-            tint = Color.White
+                .size(24.dp)
+                .clickable {
+                    isFavorite = !isFavorite
+                    onFavoriteClick() // Acción cuando se hace clic en favoritos
+                },
+            tint = if (isFavorite) Color.Red else Color.White
         )
+    }
+}
+
+@Composable
+fun FavoriteScreen(onDismiss: () -> Unit) {
+    // Mostrar el contenido de la pantalla de favoritos
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text("Welcome to Favorite Screen")
+            Spacer(modifier = Modifier.height(20.dp))
+            // Botón para volver atrás
+            Icon(
+                imageVector = Icons.Filled.Favorite,
+                contentDescription = "Close Favorite Screen",
+                modifier = Modifier
+                    .size(50.dp)
+                    .clickable { onDismiss() }, // Cerrar pantalla
+                tint = Color.Red
+            )
+        }
     }
 }
 
@@ -64,7 +113,9 @@ fun Stars(
     Row (
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center ,
-        modifier = if (fillMaxWidth) modifier.padding(top = 10.dp).fillMaxWidth() else modifier.padding(top = 10.dp)
+        modifier = if (fillMaxWidth) modifier
+            .padding(top = 10.dp)
+            .fillMaxWidth() else modifier.padding(top = 10.dp)
     ){
         val rating: Float = countStars
 
@@ -104,8 +155,9 @@ fun Stars(
         }
     }
 }
+@SuppressLint("RememberReturnType")
 @Composable
-fun CarouselBoxes() {
+fun CarouselBoxes(onProductSelected: (Int) -> Unit) {
     val images = listOf(
         R.drawable.carne,
         R.drawable.sopa,
@@ -115,18 +167,28 @@ fun CarouselBoxes() {
         R.drawable.costilla
     )
 
+    var favorites = remember { mutableStateListOf<Int>() }
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
     ) {
+        // Pasamos una función para agregar/eliminar favoritos
         items(images.size) { index ->
-            CardContent(images[index])
+            CardContent(images[index]){ imageRes, isFavorite ->
+                if (isFavorite) {
+                    favorites.add(imageRes)
+                } else {
+                    favorites.remove(imageRes)
+                }
+            }
         }
     }
 }
 
 @Composable
-fun CardContent(imageRes: Int) {
+fun CardContent(imageRes: Int, onFavoriteChange: (Int, Boolean) -> Unit) {
+    var isFavorite by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .padding(vertical = 16.dp)
@@ -139,17 +201,29 @@ fun CardContent(imageRes: Int) {
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
+
         Icon(
-            imageVector = Icons.Filled.FavoriteBorder,
+            imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
             contentDescription = "favorite",
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(8.dp)
-                .size(24.dp),
-            tint = Color.White
+                .size(24.dp)
+                .clickable {
+                    isFavorite = !isFavorite
+                    onFavoriteChange(imageRes, isFavorite) // Notificar al contenedor si es favorito
+                },
+            tint = if (isFavorite) Color.Red else Color.White
         )
     }
 }
+
+
+
+
+
+
+
 
 
 

@@ -26,27 +26,55 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Lab6Theme {
+                var showSplash by remember { mutableStateOf(true) }
                 var showMenu by remember { mutableStateOf(false) }
+                var showProduct by remember { mutableStateOf(false) }
+                var showFavoriteScreen by remember { mutableStateOf(false) }
+                var selectedProductId by remember { mutableStateOf(1) }
 
                 Scaffold(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = 40.dp)
                 ) { innerPadding ->
-                    if (showMenu) {
-                        MenuDesplegable(
-                            modifier = Modifier.padding(innerPadding),
-                            onMenuButtonClick = { showMenu = !showMenu }
-                        )
-                    } else {
-                        Home(
-                            modifier = Modifier.padding(innerPadding),
-                            onMenuButtonClick = { showMenu = !showMenu }
-                        )
+                    when {
+                        showSplash -> {
+                            Splash(
+                                modifier = Modifier.padding(innerPadding),
+                                onSplashClick = { showSplash = false }
+                            )
+                        }
+                        showFavoriteScreen -> {
+                            FavoriteScreen(onDismiss = { showFavoriteScreen = false })
+                        }
+                        showMenu -> {
+                            MenuDesplegable(
+                                modifier = Modifier.padding(innerPadding),
+                                onMenuButtonClick = { showMenu = !showMenu }
+                            )
+                        }
+                        showProduct -> {
+                            Product(
+                                modifier = Modifier.padding(innerPadding),
+                                ID = selectedProductId
+                            )
+                        }
+                        else -> {
+                            Home(
+                                modifier = Modifier.padding(innerPadding),
+                                onMenuButtonClick = { showMenu = !showMenu },
+                                onProductSelected = { productId ->
+                                    selectedProductId = productId
+                                    showProduct = true
+                                },
+                                onFavoriteSelected = { showFavoriteScreen = true } // Mostrar favoritos desde Home
+                            )
+                        }
                     }
-                    //Product(modifier =  Modifier.padding(innerPadding), 1)
                 }
             }
         }
     }
 }
+
+

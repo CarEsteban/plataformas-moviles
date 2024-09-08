@@ -15,6 +15,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -85,181 +89,188 @@ fun Product(
     //el ID debe ir de 1 a 6
     ID: Int
 ){
-
-    LazyColumn (
-        modifier = Modifier.fillMaxSize()
-    ){
-        item {
-            BoxProduct(
-                modifier = Modifier
-                    .height(250.dp)
-                    .fillMaxWidth()
-                    .background(color = Color.Blue),
-                painter = painterResource(id = images[ID-1]),
-                contentDescription = "costilla"
-            )
-
-            Stars(2,modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
-
-
-            Text(
-                text = titles[ID-1],
-                modifier = Modifier
-                    .padding(top = 40.dp)
-                    .fillMaxWidth(),
-                fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xFF19597D),
-                fontSize = 22.sp,
-                textAlign = TextAlign.Center
-
-            )
-            Text(
-                text = descriptions[ID-1],
-                modifier = Modifier
-                    .padding(30.dp)
-                    .fillMaxWidth(),
-                fontSize = 18.sp,
-                fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.Light,
-                color = Color.Gray,
-                textAlign = TextAlign.Center
-
-            )
-        }
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.shopping),
-                    contentDescription = "shopping",
+    // Estado para controlar si se muestra la pantalla de favoritos
+    var showFavoriteScreen by remember { mutableStateOf(false) }
+    // Mostrar pantalla de favoritos si el estado está activado
+    if (showFavoriteScreen) {
+        FavoriteScreen(onDismiss = { showFavoriteScreen = false })
+    } else {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            item {
+                BoxProduct(
                     modifier = Modifier
-                        .size(40.dp)
-                        .align(Alignment.Center)
+                        .height(250.dp)
+                        .fillMaxWidth()
+                        .background(color = Color.Blue),
+                    painter = painterResource(id = images[ID - 1]),
+                    contentDescription = "costilla",
+                    onFavoriteClick = {showFavoriteScreen = true}
+                )
+
+                Stars(2, modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)
+
+
+                Text(
+                    text = titles[ID - 1],
+                    modifier = Modifier
+                        .padding(top = 40.dp)
+                        .fillMaxWidth(),
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF19597D),
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Center
+
+                )
+                Text(
+                    text = descriptions[ID - 1],
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .fillMaxWidth(),
+                    fontSize = 18.sp,
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+
+                )
+            }
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.shopping),
+                        contentDescription = "shopping",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+
+                Text(
+                    text = "SHOPPING LIST",
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                        .fillMaxWidth(),
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF19597D),
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center
+
+                )
+
+                Text(
+                    text = shoppingsList[ID - 1],
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .fillMaxWidth(),
+                    fontSize = 18.sp,
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Start
+
+                )
+            }
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.preparation),
+                        contentDescription = "preparation",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .align(Alignment.Center)
+                    )
+                }
+
+                Text(
+                    text = "PREPARATION",
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                        .fillMaxWidth(),
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF19597D),
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center
+
+                )
+
+                Text(
+                    text = shoppingsList[ID - 1],
+                    modifier = Modifier
+                        .padding(30.dp)
+                        .fillMaxWidth(),
+                    fontSize = 18.sp,
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Light,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Start
+
                 )
             }
 
-            Text(
-                text = "SHOPPING LIST",
-                modifier = Modifier
-                    .padding(bottom = 10.dp)
-                    .fillMaxWidth(),
-                fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xFF19597D),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
-
-            )
-
-            Text(
-                text = shoppingsList[ID-1],
-                modifier = Modifier
-                    .padding(30.dp)
-                    .fillMaxWidth(),
-                fontSize = 18.sp,
-                fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.Light,
-                color = Color.Gray,
-                textAlign = TextAlign.Start
-
-            )
-        }
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.preparation),
-                    contentDescription = "preparation",
+            item {
+                Box(
                     modifier = Modifier
-                        .size(40.dp)
-                        .align(Alignment.Center)
-                )
-            }
+                        .fillMaxWidth()
+                        .height(80.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.comments_circle),
+                        contentDescription = "preparation",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .align(Alignment.Center)
+                    )
+                }
 
-            Text(
-                text = "PREPARATION",
-                modifier = Modifier
-                    .padding(bottom = 10.dp)
-                    .fillMaxWidth(),
-                fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xFF19597D),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
-
-            )
-
-            Text(
-                text = shoppingsList[ID-1],
-                modifier = Modifier
-                    .padding(30.dp)
-                    .fillMaxWidth(),
-                fontSize = 18.sp,
-                fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.Light,
-                color = Color.Gray,
-                textAlign = TextAlign.Start
-
-            )
-        }
-
-        item {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(80.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.comments_circle),
-                    contentDescription = "preparation",
+                Text(
+                    text = "COMMENTS",
                     modifier = Modifier
-                        .size(40.dp)
-                        .align(Alignment.Center)
+                        .padding(bottom = 10.dp)
+                        .fillMaxWidth(),
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(0xFF19597D),
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center
+
                 )
+
+                PersonalComment(
+                    modifier = Modifier
+                        .padding(bottom = 30.dp),
+                    "TOM KLEIN",
+                    2.5f,
+                    "This prime rib roast was amazing!!!",
+                    painterResource(R.drawable.photo1),
+                    "7.01.2017"
+                )
+
+
+                PersonalComment(
+                    modifier = Modifier
+                        .padding(bottom = 30.dp),
+                    "SALLY PARKER",
+                    3.5f,
+                    "I was amazed at how little preparation this took. Just rub on the herbs and butter, let it sit for a few hours and you have an amazing piece of meat!",
+                    painterResource(R.drawable.photo2),
+                    "7.01.2017"
+                )
+
+                Spacer(modifier = Modifier.padding(bottom = 100.dp))
             }
-
-            Text(
-                text = "COMMENTS",
-                modifier = Modifier
-                    .padding(bottom = 10.dp)
-                    .fillMaxWidth(),
-                fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xFF19597D),
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
-
-            )
-
-            PersonalComment(
-                modifier = Modifier
-                    .padding(bottom = 30.dp),
-                "TOM KLEIN",
-                2.5f,
-                "This prime rib roast was amazing!!!",
-                painterResource(R.drawable.photo1),
-                "7.01.2017"
-            )
-
-
-            PersonalComment(
-                modifier = Modifier
-                    .padding(bottom = 30.dp),
-                "SALLY PARKER",
-                3.5f,
-                "I was amazed at how little preparation this took. Just rub on the herbs and butter, let it sit for a few hours and you have an amazing piece of meat!",
-                painterResource(R.drawable.photo2),
-                "7.01.2017"
-            )
-
-            Spacer(modifier = Modifier.padding(bottom = 100.dp))
         }
     }
 }

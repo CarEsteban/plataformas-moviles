@@ -56,7 +56,9 @@ val robotoFontFamily = FontFamily(
 @Composable
 fun Home(
     modifier: Modifier = Modifier,
-    onMenuButtonClick: () -> Unit
+    onMenuButtonClick: () -> Unit,
+    onProductSelected: (Int) -> Unit,
+    onFavoriteSelected: () -> Unit
 ) {
     Column (
         modifier = Modifier.fillMaxSize()
@@ -115,7 +117,19 @@ fun Home(
             }
             Spacer(modifier = Modifier.padding(vertical = 12.dp))
 
-            CarouselBoxes()
+            LazyRow(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                itemsIndexed(images) { index, imageRes ->
+                    BoxProduct(
+                        modifier = Modifier.size(250.dp).padding(horizontal = 8.dp),
+                        painter = painterResource(id = imageRes),
+                        contentDescription = "Imagen del producto",
+                        onFavoriteClick = { onFavoriteSelected() },
+                        onProductClick = { onProductSelected(index + 1) } // Selección del producto
+                    )
+                }
+            }
 
 
             Stars(1,modifier = Modifier.fillMaxWidth(), countStars = 3.5f, fillMaxWidth = true)

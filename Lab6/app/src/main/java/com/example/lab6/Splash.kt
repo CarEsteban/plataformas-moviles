@@ -2,6 +2,7 @@ package com.example.lab6
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,11 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Splash(modifier: Modifier = Modifier) {
+fun Splash(modifier: Modifier = Modifier, onSplashClick: () -> Unit) {
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(Color.Red)
+            .clickable { onSplashClick() }
+
     ) {
         Image(
             painter = painterResource(id = R.drawable.pizza),
@@ -52,9 +55,5 @@ fun Splash(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewSplash() {
-    Splash(modifier = Modifier.fillMaxSize())
-}
+
 
