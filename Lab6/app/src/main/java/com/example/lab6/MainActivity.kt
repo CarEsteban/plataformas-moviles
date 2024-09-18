@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                             onMenuButtonClick = { showMenu = !showMenu }
                         )
                     }
-                    //Product(modifier =  Modifier.padding(innerPadding), 1)
+                    Product(modifier =  Modifier.padding(innerPadding), 1)
                 }
             }
         }

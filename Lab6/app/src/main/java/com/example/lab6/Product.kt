@@ -87,7 +87,7 @@ fun Product(
 ){
 
     LazyColumn (
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().background(color = Color.White)
     ){
         item {
             BoxProduct(
