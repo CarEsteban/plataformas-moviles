@@ -1,6 +1,7 @@
 package com.example.lab6
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,10 @@ import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -115,23 +120,35 @@ fun CarouselBoxes() {
         R.drawable.costilla
     )
 
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        items(images.size) { index ->
-            CardContent(images[index])
+    var selectedIndex by remember { mutableStateOf<Int?>(null) }
+
+    // Si el índice es diferente de null, mostramos la pantalla del producto
+    if (selectedIndex != null) {
+        ProductScreen(index = selectedIndex!!, onBack = { selectedIndex = null })
+    } else {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(images.size) { index ->
+                CardContent(
+                    imageRes = images[index],
+                    onClick = {
+                        selectedIndex = index // Actualiza el índice cuando haces clic
+                    }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun CardContent(imageRes: Int) {
+fun CardContent(imageRes: Int, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .padding(vertical = 16.dp)
             .padding(horizontal = 80.dp)
             .size(250.dp)
+            .clickable { onClick() } // Agregar el evento onClick
     ) {
         Image(
             painter = painterResource(id = imageRes),
@@ -151,5 +168,7 @@ fun CardContent(imageRes: Int) {
     }
 }
 
-
-
+@Composable
+fun ProductScreen(index: Int, onBack: () -> Unit) {
+    Product(modifier = Modifier,index+1)
+}

@@ -93,8 +93,7 @@ fun Product(
             BoxProduct(
                 modifier = Modifier
                     .height(250.dp)
-                    .fillMaxWidth()
-                    .background(color = Color.Blue),
+                    .fillMaxWidth(),
                 painter = painterResource(id = images[ID-1]),
                 contentDescription = "costilla"
             )

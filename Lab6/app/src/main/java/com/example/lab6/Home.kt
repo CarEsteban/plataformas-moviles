@@ -4,6 +4,7 @@ import android.media.Image
 import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.StarOutline
 import androidx.compose.material.icons.filled.StarHalf
 import androidx.compose.material3.IconButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -78,6 +83,8 @@ fun Home(
             }
 
             Spacer(modifier = Modifier.padding(horizontal = 24.dp))
+
+
             Text(
                 text = "POPULAR RECIPES",
                 modifier = Modifier,
@@ -85,8 +92,10 @@ fun Home(
                 fontWeight = FontWeight.Bold,
                 color = Color.Red,
                 fontSize = 23.sp
-
             )
+
+
+
             Spacer(modifier = Modifier.padding(horizontal = 24.dp))
             Icon(
                 painter = painterResource(id = R.drawable.btn_search),
@@ -191,36 +200,85 @@ fun Home(
 
 
 
-
 @Composable
 fun MenuDesplegable(
     modifier: Modifier = Modifier,
     onMenuButtonClick: () -> Unit
 ) {
-    Row (
-        modifier = Modifier
-            .fillMaxSize()
-
-        ) {
-        Column (
+    Row(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth(0.8f).fillMaxHeight()
-                .background(color = Color.Red)
+                .fillMaxWidth(0.8f)
+                .fillMaxHeight()
+                .background(color = Color(0xFFF28B82)) // Color similar al de la segunda imagen
+                .padding(16.dp), // Espaciado interno
+            verticalArrangement = Arrangement.SpaceBetween // Para distribuir los elementos
         ) {
-            Text(text = "POPULAR RECIPES")
-            Text(text = "SAVED RECIPES")
-            Text(text = "SHOPPING LIST")
-            Text(text = "SETTINGS")
-            Image(
-                painter = painterResource(id = R.drawable.photo3),
-                contentDescription = "photo",
-                modifier = Modifier
-                    .size(60.dp)
-            )
-            Text(text = "HARRY TRUMAN")
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp) // Espaciado entre los textos
+            ) {
+                Text(
+                    text = "POPULAR RECIPES",
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    fontSize = 20.sp
+                )
+                Text(
+                    text = "SAVED RECIPES",
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.White,
+                    fontSize = 18.sp
+                )
+                Text(
+                    text = "SHOPPING LIST",
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.White,
+                    fontSize = 18.sp
+                )
+                Text(
+                    text = "SETTINGS",
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Normal,
+                    color = Color.White,
+                    fontSize = 18.sp
+                )
+            }
 
+            // Imagen y nombre alineados en la parte inferior
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.photo3),
+                    contentDescription = "photo",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(RoundedCornerShape(50.dp)) // Para la imagen redondeada
+                )
+                Spacer(modifier = Modifier.height(8.dp)) // Espaciado entre la imagen y el nombre
+                Text(
+                    text = "HARRY TRUMAN",
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    fontSize = 16.sp
+                )
+            }
         }
-        IconButton(onClick = { onMenuButtonClick() }) {
+
+        IconButton(
+            onClick = { onMenuButtonClick() },
+            modifier = Modifier
+                .align(Alignment.Top)
+                .padding(16.dp)
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.btn_menu),
                 contentDescription = "btn_menu",
@@ -229,5 +287,4 @@ fun MenuDesplegable(
             )
         }
     }
-
 }
