@@ -96,14 +96,13 @@ fun Product(
         FavoriteScreen(onDismiss = { showFavoriteScreen = false })
     } else {
         LazyColumn(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().background(color = Color.White)
         ) {
             item {
                 BoxProduct(
                     modifier = Modifier
                         .height(250.dp)
-                        .fillMaxWidth()
-                        .background(color = Color.Blue),
+                        .fillMaxWidth(),
                     painter = painterResource(id = images[ID - 1]),
                     contentDescription = "costilla",
                     onFavoriteClick = {showFavoriteScreen = true}

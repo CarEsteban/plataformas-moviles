@@ -242,7 +242,7 @@ fun Stars(
 }
 @SuppressLint("RememberReturnType")
 @Composable
-fun CarouselBoxes(onProductSelected: (Int) -> Unit) {
+fun CarouselBoxes() {
     val images = listOf(
         R.drawable.carne,
         R.drawable.sopa,
@@ -252,18 +252,28 @@ fun CarouselBoxes(onProductSelected: (Int) -> Unit) {
         R.drawable.costilla
     )
 
+    var selectedIndex by remember { mutableStateOf<Int?>(null) }
     var favorites = remember { mutableStateListOf<Int>() }
-    LazyRow(
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-        // Pasamos una función para agregar/eliminar favoritos
-        items(images.size) { index ->
-            CardContent(images[index]){ imageRes, isFavorite ->
-                if (isFavorite) {
-                    favorites.add(imageRes)
-                } else {
-                    favorites.remove(imageRes)
+
+    // Si el índice es diferente de null, mostramos la pantalla del producto
+    if (selectedIndex != null) {
+        ProductScreen(index = selectedIndex!!, onBack = { selectedIndex = null })
+    } else {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items(images.size) { index ->
+                CardContent(
+                    imageRes = images[index],
+                    onClick = {
+                        selectedIndex = index // Actualiza el índice cuando haces clic
+                    }
+                ){ imageRes, isFavorite ->
+                    if (isFavorite) {
+                        favorites.add(imageRes)
+                    } else {
+                        favorites.remove(imageRes)
+                    }
                 }
             }
         }
@@ -271,7 +281,7 @@ fun CarouselBoxes(onProductSelected: (Int) -> Unit) {
 }
 
 @Composable
-fun CardContent(imageRes: Int, onFavoriteChange: (Int, Boolean) -> Unit) {
+fun CardContent(imageRes: Int, onClick: () -> Unit, onFavoriteChange: (Int, Boolean) -> Unit) {
     var isFavorite by remember { mutableStateOf(false) }
 
     Box(
@@ -279,6 +289,7 @@ fun CardContent(imageRes: Int, onFavoriteChange: (Int, Boolean) -> Unit) {
             .padding(vertical = 16.dp)
             .padding(horizontal = 80.dp)
             .size(250.dp)
+            .clickable { onClick() } // Agregar el evento onClick
     ) {
         Image(
             painter = painterResource(id = imageRes),
@@ -303,12 +314,8 @@ fun CardContent(imageRes: Int, onFavoriteChange: (Int, Boolean) -> Unit) {
     }
 }
 
-
-
-
-
-
-
-
-
-
+@Composable
+fun ProductScreen(index: Int, onBack: () -> Unit) {
+    Product(modifier = Modifier,index+1)
+    println("Clicked on item index: $index")
+}
