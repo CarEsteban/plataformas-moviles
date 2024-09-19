@@ -13,10 +13,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun Tablero(modifier: Modifier = Modifier) {
-    val tableroTamanio = 3
+fun Tablero(modifier: Modifier = Modifier, sizeTablero: Int , navController: NavController) {
 
     Box(
         modifier = Modifier
@@ -25,12 +25,12 @@ fun Tablero(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center  // Centra el contenido (el LazyVerticalGrid) dentro del Box
     ) {
         LazyVerticalGrid(
-            columns = GridCells.Fixed(tableroTamanio),  // Define 3 columnas
+            columns = GridCells.Fixed(sizeTablero),  // Define 3 columnas
             contentPadding = PaddingValues(16.dp),  // Espaciado alrededor de la cuadrícula
             verticalArrangement = Arrangement.Center,  // Espaciado vertical entre filas
             horizontalArrangement = Arrangement.Center  // Espaciado horizontal entre columnas
         ) {
-            items(tableroTamanio * tableroTamanio) { index ->
+            items(sizeTablero * sizeTablero) { index ->
                 Button(
                     onClick = {
                         // Define aquí la acción al hacer clic en el botón
@@ -54,5 +54,17 @@ fun Tablero(modifier: Modifier = Modifier) {
             }
         }
     }
+
+    Button(
+        onClick = {
+            navController.navigate("home")
+
+        },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text("Regresar a Home")
+    }
+
+
 }
 

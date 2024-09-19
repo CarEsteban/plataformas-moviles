@@ -1,5 +1,6 @@
 package com.example.cortototito
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,25 +15,50 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.cortototito.ui.theme.CortoTotitoTheme
+import androidx.navigation.navArgument
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            CortoTotitoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    //Home(modifier = Modifier.padding(innerPadding))
-                    Tablero(modifier = Modifier.padding(innerPadding))
-                }
-            }
+            App()
         }
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun Home(modifier: Modifier = Modifier) {
+fun App(){
+    val navController = rememberNavController()
+    Scaffold {
+
+        NavHost(navController = navController, startDestination = "home") {
+            composable("home") { Home(navController, modifier = Modifier) }
+            composable(
+                "tablero/{tableroNumero}",
+                arguments = listOf(navArgument("tableroNumero") { type = NavType.IntType })
+            ) { backStackEntry ->
+                Tablero(
+                    modifier = Modifier,
+                    sizeTablero = backStackEntry.arguments?.getInt("tableroNumero") ?: 3,
+                    navController
+                )
+            }
+        }
+
+    }
+}
+
+@Composable
+fun Home(navController: NavController, modifier: Modifier) {
     Column (
         modifier = modifier
             .padding(16.dp)
@@ -50,7 +76,7 @@ fun Home(modifier: Modifier = Modifier) {
 
         var jugador1 by remember { mutableStateOf("") }
         var jugador2 by remember { mutableStateOf("") }
-        var tablero by remember { mutableStateOf("") }
+        var tableroNumero by remember { mutableStateOf("") }
 
         TextField(
             value = jugador1,
@@ -71,8 +97,8 @@ fun Home(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
 
         TextField(
-            value = tablero,
-            onValueChange = { tablero = it },
+            value = tableroNumero,
+            onValueChange = { tableroNumero = it },
             label = { Text("Tamaño del tablero (3, 4, 5)") },
             singleLine = true
         )
@@ -80,18 +106,17 @@ fun Home(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = {  },
+            onClick = {
+                // Asegúrate de que tableroNumero sea un entero válido antes de navegar
+                tableroNumero.toIntOrNull()?.let {
+                    navController.navigate("tablero/$it")
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Jugar")
         }
+
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CortoTotitoTheme {
-        Home()
-    }
-}
