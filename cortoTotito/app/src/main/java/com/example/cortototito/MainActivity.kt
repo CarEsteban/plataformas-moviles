@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cortototito.ui.theme.CortoTotitoTheme
 import androidx.navigation.navArgument
+import com.google.gson.Gson
 
 
 class MainActivity : ComponentActivity() {
@@ -44,19 +45,22 @@ fun App(){
             composable("home") { Home(navController, modifier = Modifier) }
             composable(
                 "tablero/{tableroNumero}",
-                arguments = listOf(navArgument("tableroNumero") { type = NavType.IntType })
+                arguments = listOf(
+                    navArgument("tableroNumero") { type = NavType.IntType }
+                )
             ) { backStackEntry ->
                 Tablero(
                     modifier = Modifier,
                     sizeTablero = backStackEntry.arguments?.getInt("tableroNumero") ?: 3,
-                    navController
+                    navController = navController
                 )
             }
         }
 
+
     }
 }
-
+@SuppressLint("MutableCollectionMutableState")
 @Composable
 fun Home(navController: NavController, modifier: Modifier) {
     Column (
@@ -105,18 +109,19 @@ fun Home(navController: NavController, modifier: Modifier) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Verificación para habilitar el botón
+        val isFormValid = jugador1.isNotBlank() && jugador2.isNotBlank() && tableroNumero.toIntOrNull() in 3..5
+
         Button(
             onClick = {
-                // Asegúrate de que tableroNumero sea un entero válido antes de navegar
                 tableroNumero.toIntOrNull()?.let {
                     navController.navigate("tablero/$it")
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = isFormValid  // Habilitar el botón solo si el formulario es válido
         ) {
             Text("Jugar")
         }
-
     }
 }
-
