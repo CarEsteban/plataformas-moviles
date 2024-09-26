@@ -51,6 +51,14 @@ android {
 
 dependencies {
 
+    implementation (libs.androidx.runtime.saveable) // Actualiza la versión si es necesario
+    implementation (libs.ui)
+    implementation (libs.androidx.material)
+    implementation (libs.ui.tooling.preview)
+
+    //noinspection GradleDependency,UseTomlInstead
+    implementation ("androidx.navigation:navigation-compose:2.8.1")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

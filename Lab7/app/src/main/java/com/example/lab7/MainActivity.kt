@@ -1,6 +1,8 @@
 package com.example.lab7
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.SeekBar
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,6 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.lab7.ui.theme.Lab7Theme
 
 class MainActivity : ComponentActivity() {
@@ -20,10 +25,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab7Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NavigationApp(Modifier.padding(innerPadding))
                 }
             }
         }
@@ -31,17 +33,25 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun NavigationApp(modifier: Modifier) {
+    val navControlador = rememberNavController()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Lab7Theme {
-        Greeting("Android")
+    NavHost(navController = navControlador, startDestination = "home") {
+        composable("home") { Home(navControlador) }
+        composable("loginPage") { LoginPage(navControlador) }
+        composable("taskApp/{user}/{password}") { backStackEntry ->
+            val user = backStackEntry.arguments?.getString("user")
+            val password = backStackEntry.arguments?.getString("password")
+
+            TaskApp(navControlador, user?: "", password?:"")
+        }
+        composable("settings/{tareasTerminadas}/{user}/{password}") { backStackEntry ->
+            val tareasTerminadas = backStackEntry.arguments?.getString("tareasTerminadas")?.toInt()
+            val user = backStackEntry.arguments?.getString("user")
+            val password = backStackEntry.arguments?.getString("password")
+
+            Settings(navControlador, tareasTerminadas,user?: "", password?:"")
+        }
     }
+
 }
