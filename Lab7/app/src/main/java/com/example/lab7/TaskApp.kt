@@ -17,8 +17,8 @@ import androidx.navigation.NavController
 
 @Composable
 fun TaskApp(navController: NavController, user: String?, password: String?) {
-    var tareasTerminadas by rememberSaveable { mutableIntStateOf(0) }
-    var tareas = rememberSaveable { mutableStateListOf("") } // Lista de tareas
+    var tareasTerminadas by remember { mutableIntStateOf(0) }
+    var tareas = remember { mutableStateListOf("") } // Lista de tareas
 
     Column(
         modifier = Modifier
