@@ -51,6 +51,15 @@ android {
 
 dependencies {
 
+    //Compose ViewMode
+        implementation(libs.androidx.lifecycle.viewmodel.compose)
+    //Network calls
+        implementation(libs.retrofit)
+    //json to Kotlin object mapping
+        implementation(libs.converter.gson)
+    //Image loading
+        implementation(libs.coil.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
