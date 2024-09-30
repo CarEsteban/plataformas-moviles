@@ -16,6 +16,10 @@ class MainViewModel : ViewModel() {
     private val _recipesState = mutableStateOf(RecipeState())
     val recipesState: State<RecipeState> = _recipesState
 
+    // Estado para los detalles de la receta
+    private val _detailRecipeState = mutableStateOf(DetailRecipeState())
+    val detailRecipeState: State<DetailRecipeState> = _detailRecipeState
+
     init {
         fetchCategories() // Cargar las categorías al iniciar
     }
@@ -59,6 +63,25 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    // Nueva función para obtener los detalles de una receta por ID
+    fun fetchDetailRecipe(idMeal: String) {
+        viewModelScope.launch {
+            try {
+                val response = recipeService.getDetailByRecipe(idMeal)
+                _detailRecipeState.value = _detailRecipeState.value.copy(
+                    detailRecipe = response.meals.first(),
+                    loading = false,
+                    error = null
+                )
+            } catch (e: Exception) {
+                _detailRecipeState.value = _detailRecipeState.value.copy(
+                    loading = false,
+                    error = "Error fetching Recipe Details ${e.message}"
+                )
+            }
+        }
+    }
+
     // Estado para las categorías
     data class CategoriesState(
         val loading: Boolean = true,
@@ -73,5 +96,11 @@ class MainViewModel : ViewModel() {
         val error: String? = null
     )
 
+    // Estado para los detalles de la receta
+    data class DetailRecipeState(
+        val loading: Boolean = true,
+        val detailRecipe: DetailRecipe? = null,
+        val error: String? = null
+    )
 
 }

@@ -59,6 +59,7 @@ dependencies {
         implementation(libs.converter.gson)
     //Image loading
         implementation(libs.coil.compose)
+    implementation ("androidx.navigation:navigation-compose:2.8.1")
     implementation (libs.material3)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

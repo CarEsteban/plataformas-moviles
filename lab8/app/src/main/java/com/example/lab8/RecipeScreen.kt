@@ -39,63 +39,61 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import kotlin.math.exp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeScreen(modifier: Modifier = Modifier){
-    val recipeViewModel: MainViewModel= viewModel()
+fun RecipeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+    val recipeViewModel: MainViewModel = viewModel()
     val viewState by recipeViewModel.categoriesState
     val recipeState by recipeViewModel.recipesState
 
-    // Asegúrate de que la lista tenga datos antes de usarla
     val categoryNames = remember(viewState.list) {
-        viewState.list.map { it.strCategory } // Obtén solo los nombres de las categorías
+        viewState.list.map { it.strCategory }
     }
 
-    //val categoriesNames = listOf("a","b","c")
     var isExpanded by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf("") }
 
-    // Actualiza el valor seleccionado cuando la lista de categorías cambie
     LaunchedEffect(categoryNames) {
         if (categoryNames.isNotEmpty()) {
             selectedIndex = categoryNames[0]
         }
     }
 
-    // Llama a fetchRecipesByCategory cuando cambia la categoría seleccionada
     LaunchedEffect(selectedIndex) {
         if (selectedIndex.isNotEmpty()) {
             recipeViewModel.fetchRecipesByCategory(selectedIndex)
         }
     }
 
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 9.dp, vertical = 50.dp),
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Text(
             text = "Selecciona la categoría:",
             modifier = Modifier.padding(bottom = 20.dp)
         )
+
         ExposedDropdownMenuBox(
             expanded = isExpanded,
-            onExpandedChange ={isExpanded = !isExpanded}
+            onExpandedChange = { isExpanded = !isExpanded }
         ) {
             TextField(
                 modifier = Modifier.menuAnchor(),
                 value = selectedIndex,
                 onValueChange = {},
                 readOnly = true,
-                trailingIcon = {ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)}
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
             )
 
-            ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = {isExpanded=false}) {
-                categoryNames.forEachIndexed{ index, category ->
+            ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
+                categoryNames.forEachIndexed { index, category ->
                     DropdownMenuItem(
                         text = { Text(text = category) },
                         onClick = {
@@ -107,43 +105,50 @@ fun RecipeScreen(modifier: Modifier = Modifier){
                 }
             }
         }
+
         Text(text = "Elemento actual: $selectedIndex")
     }
 
-
-    Box(modifier = Modifier.fillMaxWidth().padding(top = 200.dp)){
-        when{
-            recipeState.loading->{
+    // Muestra las recetas filtradas en CategoryScreen
+    Box(modifier = Modifier.fillMaxWidth().padding(top = 200.dp)) {
+        when {
+            recipeState.loading -> {
                 CircularProgressIndicator(modifier.align(Alignment.Center))
             }
-
-            recipeState.error != null ->{
+            recipeState.error != null -> {
                 Text("ERROR OCURRED")
             }
-
             else -> {
-                RecipeByCategoryScreen(recipes = recipeState.list)
+                CategoryScreen(recipes = recipeState.list) { idMeal ->
+                    // Navega a la pantalla de detalles
+                    navController.navigate("recipeDetail/$idMeal")
+                }
             }
         }
     }
 }
 
 
+
+
 @Composable
-fun RecipeByCategoryScreen(recipes : List<Recipe>){
+fun CategoryScreen(recipes: List<Recipe>, onRecipeClick: (String) -> Unit) {
     LazyVerticalGrid(GridCells.Fixed(2), modifier = Modifier.fillMaxWidth()) {
-        items(recipes){ recipe ->
-            RecipeItem(recipe=recipe)
+        items(recipes) { recipe ->
+            RecipeItem(recipe = recipe, onRecipeClick = onRecipeClick)
         }
     }
 }
 
 @Composable
-fun RecipeItem(recipe:  Recipe){
-    Column (
-        modifier = Modifier.padding(8.dp).fillMaxWidth(),
+fun RecipeItem(recipe: Recipe, onRecipeClick: (String) -> Unit) {
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable { onRecipeClick(recipe.idMeal) },  // Llama a la función cuando se hace clic
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Image(
             painter = rememberAsyncImagePainter(recipe.strMealThumb),
             contentDescription = null,
@@ -154,7 +159,9 @@ fun RecipeItem(recipe:  Recipe){
             text = recipe.strMeal,
             color = Color.Black,
             style = TextStyle(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(top=4.dp)
+            modifier = Modifier.padding(top = 4.dp)
         )
     }
 }
+
+

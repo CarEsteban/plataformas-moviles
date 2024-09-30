@@ -12,19 +12,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.lab8.ui.theme.Lab8Theme
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             Lab8Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    RecipeScreen(modifier = Modifier.padding(innerPadding))
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "recipeList") {
+                    composable("recipeList") {
+                        RecipeScreen(navController = navController)
+                    }
+                    composable("recipeDetail/{recipeId}") { backStackEntry ->
+                        val recipeId = backStackEntry.arguments?.getString("recipeId") ?: ""
+                        DetailRecipeScreen(recipeId = recipeId) {
+                            navController.popBackStack()  // Cierra la pantalla de detalles
+                        }
+                    }
                 }
             }
         }
     }
 }
+
 
 
