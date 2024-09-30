@@ -9,3 +9,4 @@ data class Category(
 )
 
 data class CategoriesResponse(val categories: List<Category>)
+
