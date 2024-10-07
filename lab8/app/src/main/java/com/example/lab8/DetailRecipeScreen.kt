@@ -33,32 +33,40 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailRecipeScreen(recipeId: String, onClose: () -> Unit) {
-    val recipeViewModel: MainViewModel = viewModel()
-    val detailRecipeState by recipeViewModel.detailRecipeState
+fun DetailRecipeScreen(recipeId: String, mainViewModel: MainViewModel, onBack: () -> Unit) {
+    // Utilizamos el mainViewModel pasado como parámetro
+    val detailRecipeState by mainViewModel.detailRecipeState
 
     // Cargar los detalles de la receta usando el ID
     LaunchedEffect(recipeId) {
-        recipeViewModel.fetchDetailRecipe(recipeId)
+        mainViewModel.fetchDetailRecipe(recipeId)
     }
 
-    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)
+    ) {
         when {
             detailRecipeState.loading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
             detailRecipeState.error != null -> {
-                Text(text = "Error loading recipe details", modifier = Modifier.align(Alignment.Center))
+                Text(
+                    text = "Error loading recipe details: ${detailRecipeState.error}",
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
             detailRecipeState.detailRecipe != null -> {
                 val recipe = detailRecipeState.detailRecipe!!
                 Column(
-                    modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
                 ) {
                     TopAppBar(
                         title = { Text(text = "Detalles de la receta") },
                         actions = {
-                            IconButton(onClick = { onClose() }) {
+                            IconButton(onClick = { onBack() }) {
                                 Icon(imageVector = Icons.Filled.Close, contentDescription = "Cerrar")
                             }
                         }
@@ -78,7 +86,9 @@ fun DetailRecipeScreen(recipeId: String, onClose: () -> Unit) {
                         Image(
                             painter = rememberAsyncImagePainter(recipe.strMealThumb),
                             contentDescription = null,
-                            modifier = Modifier.fillMaxWidth().aspectRatio(1f)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(1f)
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))

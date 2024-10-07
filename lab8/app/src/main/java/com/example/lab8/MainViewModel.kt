@@ -1,18 +1,26 @@
 package com.example.lab8
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.lab8.data.RecipeDao
+import com.example.lab8.data.RecipeEntity
 import kotlinx.coroutines.launch
 
-
-class MainViewModel : ViewModel() {
+class MainViewModel(
+    private val recipeDao: RecipeDao,
+    private val context: Context
+) : ViewModel() {
     // Estado para las categorías
     private val _categoriesState = mutableStateOf(CategoriesState())
     val categoriesState: State<CategoriesState> = _categoriesState
 
-    //Estado para las recetas filtadas
+    // Estado para las recetas filtradas
     private val _recipesState = mutableStateOf(RecipeState())
     val recipesState: State<RecipeState> = _recipesState
 
@@ -24,8 +32,8 @@ class MainViewModel : ViewModel() {
         fetchCategories() // Cargar las categorías al iniciar
     }
 
-    //este es el codig para pdoer hacer el get de las categorias
-    fun fetchCategories() {
+    // Obtiene las categorías desde la API
+    private fun fetchCategories() {
         viewModelScope.launch {
             try {
                 val response = recipeService.getCategories()
@@ -37,17 +45,16 @@ class MainViewModel : ViewModel() {
             } catch (e: Exception) {
                 _categoriesState.value = _categoriesState.value.copy(
                     loading = false,
-                    error = "Error fetching Categories ${e.message}"
+                    error = "Error fetching Categories: ${e.message}"
                 )
             }
         }
     }
 
-    //este es el codigo para poder obtener las recetas pero mediante la categoria
+    // Función para obtener las recetas por categoría
     fun fetchRecipesByCategory(category: String) {
         viewModelScope.launch {
             try {
-                //esto viene de la API , ApiService.kt
                 val response = recipeService.getRecipesByCategory(category)
                 _recipesState.value = _recipesState.value.copy(
                     list = response.meals,
@@ -63,7 +70,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    // Nueva función para obtener los detalles de una receta por ID
+    // Función para obtener los detalles de una receta por ID
     fun fetchDetailRecipe(idMeal: String) {
         viewModelScope.launch {
             try {
@@ -82,25 +89,36 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    // Estado para las categorías
+    // Función para verificar la conexión a Internet
+    fun isConnectedToInternet(): Boolean {
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+        return when {
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
+        }
+    }
+
+    // Clases de Estado fuera de las funciones
     data class CategoriesState(
         val loading: Boolean = true,
         val list: List<Category> = emptyList(),
         val error: String? = null
     )
 
-    //Estado pra las recetas
     data class RecipeState(
         val loading: Boolean = true,
         val list: List<Recipe> = emptyList(),
         val error: String? = null
     )
 
-    // Estado para los detalles de la receta
     data class DetailRecipeState(
         val loading: Boolean = true,
         val detailRecipe: DetailRecipe? = null,
         val error: String? = null
     )
-
 }

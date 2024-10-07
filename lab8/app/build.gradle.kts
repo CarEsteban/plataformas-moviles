@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -50,7 +52,16 @@ android {
 }
 
 dependencies {
+    // Room dependencies
+    implementation ("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
 
+    // Kotlin dependencies
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:2.0.20")
+
+    // Connectivity
+    implementation (libs.androidx.lifecycle.runtime.ktx.v250)
     //Compose ViewMode
         implementation(libs.androidx.lifecycle.viewmodel.compose)
     //Network calls

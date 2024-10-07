@@ -1,5 +1,6 @@
 package com.example.lab8
 
+import android.content.Context
 import android.widget.Space
 import androidx.collection.scatterSetOf
 import androidx.compose.foundation.Image
@@ -11,11 +12,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -45,10 +48,14 @@ import kotlin.math.exp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-    val recipeViewModel: MainViewModel = viewModel()
-    val viewState by recipeViewModel.categoriesState
-    val recipeState by recipeViewModel.recipesState
+fun RecipeScreen(
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    mainViewModel: MainViewModel
+) {
+    val viewState by mainViewModel.categoriesState
+    val recipeState by mainViewModel.recipesState
+    var connectionStatus by remember { mutableStateOf("") }
 
     val categoryNames = remember(viewState.list) {
         viewState.list.map { it.strCategory }
@@ -65,19 +72,32 @@ fun RecipeScreen(navController: NavHostController, modifier: Modifier = Modifier
 
     LaunchedEffect(selectedIndex) {
         if (selectedIndex.isNotEmpty()) {
-            recipeViewModel.fetchRecipesByCategory(selectedIndex)
+            mainViewModel.fetchRecipesByCategory(selectedIndex)
         }
     }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 9.dp, vertical = 50.dp),
+            .padding(horizontal = 16.dp, vertical = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Botón para verificar la conexión a Internet
+        Button(onClick = {
+            // Aquí se verifica la conexión a internet cada vez que se pulsa el botón
+            val isConnected = mainViewModel.isConnectedToInternet()
+            connectionStatus = if (isConnected) "Conectado a Internet" else "No hay conexión"
+        }) {
+            Text(text = "Verificar Conexión")
+        }
+        // Muestra el estado de la conexión
+        Text(text = connectionStatus, modifier = Modifier.padding(top = 8.dp))
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         Text(
             text = "Selecciona la categoría:",
-            modifier = Modifier.padding(bottom = 20.dp)
+            modifier = Modifier.padding(bottom = 10.dp)
         )
 
         ExposedDropdownMenuBox(
@@ -91,7 +111,6 @@ fun RecipeScreen(navController: NavHostController, modifier: Modifier = Modifier
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) }
             )
-
             ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
                 categoryNames.forEachIndexed { index, category ->
                     DropdownMenuItem(
@@ -107,33 +126,37 @@ fun RecipeScreen(navController: NavHostController, modifier: Modifier = Modifier
         }
 
         Text(text = "Elemento actual: $selectedIndex")
-    }
 
-    // Muestra las recetas filtradas en CategoryScreen
-    Box(modifier = Modifier.fillMaxWidth().padding(top = 200.dp)) {
-        when {
-            recipeState.loading -> {
-                CircularProgressIndicator(modifier.align(Alignment.Center))
-            }
-            recipeState.error != null -> {
-                Text("ERROR OCURRED")
-            }
-            else -> {
-                CategoryScreen(recipes = recipeState.list) { idMeal ->
-                    // Navega a la pantalla de detalles
+        Spacer(modifier = Modifier.height(20.dp)) // Agrega más espacio para que las imágenes bajen correctamente.
+
+        // Muestra las recetas filtradas en CategoryScreen
+        if (recipeState.loading) {
+            CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+        } else if (recipeState.error != null) {
+            Text("ERROR OCURRED", color = Color.Red)
+        } else {
+            // Aquí es donde debes colocar el LazyVerticalGrid para las imágenes
+            CategoryScreen(
+                recipes = recipeState.list,
+                onRecipeClick = { idMeal ->
                     navController.navigate("recipeDetail/$idMeal")
-                }
-            }
+                },
+                modifier = Modifier.padding(top = 20.dp) // Ajusta este padding si necesitas más espacio
+            )
         }
     }
 }
 
-
-
-
 @Composable
-fun CategoryScreen(recipes: List<Recipe>, onRecipeClick: (String) -> Unit) {
-    LazyVerticalGrid(GridCells.Fixed(2), modifier = Modifier.fillMaxWidth()) {
+fun CategoryScreen(
+    recipes: List<Recipe>,
+    onRecipeClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        modifier = modifier.fillMaxWidth() // Ajusta el modificador para ocupar todo el ancho disponible
+    ) {
         items(recipes) { recipe ->
             RecipeItem(recipe = recipe, onRecipeClick = onRecipeClick)
         }
@@ -152,7 +175,9 @@ fun RecipeItem(recipe: Recipe, onRecipeClick: (String) -> Unit) {
         Image(
             painter = rememberAsyncImagePainter(recipe.strMealThumb),
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth().aspectRatio(1f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f)
         )
 
         Text(
@@ -163,5 +188,6 @@ fun RecipeItem(recipe: Recipe, onRecipeClick: (String) -> Unit) {
         )
     }
 }
+
 
 
