@@ -12,10 +12,8 @@ import com.example.lab8.data.RecipeDao
 import com.example.lab8.data.RecipeEntity
 import kotlinx.coroutines.launch
 
-class MainViewModel(
-    private val recipeDao: RecipeDao,
-    private val context: Context
-) : ViewModel() {
+
+class MainViewModel(private val recipeDao: RecipeDao, private val context: Context) : ViewModel() {
     // Estado para las categorías
     private val _categoriesState = mutableStateOf(CategoriesState())
     val categoriesState: State<CategoriesState> = _categoriesState
@@ -32,63 +30,6 @@ class MainViewModel(
         fetchCategories() // Cargar las categorías al iniciar
     }
 
-    // Obtiene las categorías desde la API
-    private fun fetchCategories() {
-        viewModelScope.launch {
-            try {
-                val response = recipeService.getCategories()
-                _categoriesState.value = _categoriesState.value.copy(
-                    list = response.categories,
-                    loading = false,
-                    error = null
-                )
-            } catch (e: Exception) {
-                _categoriesState.value = _categoriesState.value.copy(
-                    loading = false,
-                    error = "Error fetching Categories: ${e.message}"
-                )
-            }
-        }
-    }
-
-    // Función para obtener las recetas por categoría
-    fun fetchRecipesByCategory(category: String) {
-        viewModelScope.launch {
-            try {
-                val response = recipeService.getRecipesByCategory(category)
-                _recipesState.value = _recipesState.value.copy(
-                    list = response.meals,
-                    loading = false,
-                    error = null
-                )
-            } catch (e: Exception) {
-                _recipesState.value = _recipesState.value.copy(
-                    loading = false,
-                    error = "Error fetching Recipes ${e.message}"
-                )
-            }
-        }
-    }
-
-    // Función para obtener los detalles de una receta por ID
-    fun fetchDetailRecipe(idMeal: String) {
-        viewModelScope.launch {
-            try {
-                val response = recipeService.getDetailByRecipe(idMeal)
-                _detailRecipeState.value = _detailRecipeState.value.copy(
-                    detailRecipe = response.meals.first(),
-                    loading = false,
-                    error = null
-                )
-            } catch (e: Exception) {
-                _detailRecipeState.value = _detailRecipeState.value.copy(
-                    loading = false,
-                    error = "Error fetching Recipe Details ${e.message}"
-                )
-            }
-        }
-    }
-
     // Función para verificar la conexión a Internet
     fun isConnectedToInternet(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -98,12 +39,105 @@ class MainViewModel(
         return when {
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
             activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-            activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
             else -> false
         }
     }
 
-    // Clases de Estado fuera de las funciones
+    // Función para obtener las categorías
+    fun fetchCategories() {
+        if (isConnectedToInternet()) {
+            viewModelScope.launch {
+                try {
+                    val response = recipeService.getCategories()
+                    _categoriesState.value = _categoriesState.value.copy(
+                        list = response.categories,
+                        loading = false,
+                        error = null
+                    )
+
+                    // Guardar las categorías en la base de datos (si es necesario, puedes ajustar esto)
+                } catch (e: Exception) {
+                    _categoriesState.value = _categoriesState.value.copy(
+                        loading = false,
+                        error = "Error fetching Categories: ${e.message}"
+                    )
+                }
+            }
+        } else {
+            // Recuperar las categorías desde la base de datos local
+            // Si decides guardar categorías, aquí puedes añadir la lógica para recuperar desde Room.
+        }
+    }
+
+    // Función para obtener las recetas por categoría
+    fun fetchRecipesByCategory(category: String) {
+        if (isConnectedToInternet()) {
+            viewModelScope.launch {
+                try {
+                    val response = recipeService.getRecipesByCategory(category)
+                    _recipesState.value = _recipesState.value.copy(
+                        list = response.meals,
+                        loading = false,
+                        error = null
+                    )
+
+                    // Guardar las recetas en la base de datos
+                    recipeDao.insertRecipes(response.meals.map { RecipeEntity.fromRecipe(it, category) })
+                } catch (e: Exception) {
+                    _recipesState.value = _recipesState.value.copy(
+                        loading = false,
+                        error = "Error fetching Recipes: ${e.message}"
+                    )
+                }
+            }
+        } else {
+            // Recuperar las recetas desde la base de datos local
+            viewModelScope.launch {
+                val localRecipes = recipeDao.getRecipesByCategory(category)
+                _recipesState.value = _recipesState.value.copy(
+                    list = localRecipes.map { it.toRecipe() },
+                    loading = false,
+                    error = null
+                )
+            }
+        }
+    }
+
+    // Función para obtener los detalles de una receta por ID
+    fun fetchDetailRecipe(idMeal: String) {
+        if (isConnectedToInternet()) {
+            viewModelScope.launch {
+                try {
+                    val response = recipeService.getDetailByRecipe(idMeal)
+                    _detailRecipeState.value = _detailRecipeState.value.copy(
+                        detailRecipe = response.meals.first(),
+                        loading = false,
+                        error = null
+                    )
+
+                    // Guardar el detalle de la receta en la base de datos
+                    recipeDao.insertRecipe(RecipeEntity.fromRecipeDetail(response.meals.first()))
+                } catch (e: Exception) {
+                    _detailRecipeState.value = _detailRecipeState.value.copy(
+                        loading = false,
+                        error = "Error fetching Recipe Details: ${e.message}"
+                    )
+                }
+            }
+        } else {
+            // Recuperar el detalle de la receta desde la base de datos local
+            viewModelScope.launch {
+                val localRecipe = recipeDao.getRecipeById(idMeal)
+                _detailRecipeState.value = _detailRecipeState.value.copy(
+                    detailRecipe = localRecipe?.toDetailRecipe(),
+                    loading = false,
+                    error = null
+                )
+            }
+        }
+    }
+
+    // Clases de estado
     data class CategoriesState(
         val loading: Boolean = true,
         val list: List<Category> = emptyList(),
@@ -122,3 +156,4 @@ class MainViewModel(
         val error: String? = null
     )
 }
+

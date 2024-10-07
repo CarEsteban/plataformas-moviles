@@ -24,86 +24,53 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.ExperimentalMaterial3Api
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun DetailRecipeScreen(recipeId: String, mainViewModel: MainViewModel, onBack: () -> Unit) {
-    // Utilizamos el mainViewModel pasado como parámetro
     val detailRecipeState by mainViewModel.detailRecipeState
 
-    // Cargar los detalles de la receta usando el ID
     LaunchedEffect(recipeId) {
         mainViewModel.fetchDetailRecipe(recipeId)
     }
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp)
-    ) {
+    Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         when {
             detailRecipeState.loading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
             detailRecipeState.error != null -> {
-                Text(
-                    text = "Error loading recipe details: ${detailRecipeState.error}",
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                Text(text = "Error loading recipe details", modifier = Modifier.align(Alignment.Center))
             }
             detailRecipeState.detailRecipe != null -> {
                 val recipe = detailRecipeState.detailRecipe!!
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
+                    modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
                 ) {
-                    TopAppBar(
-                        title = { Text(text = "Detalles de la receta") },
-                        actions = {
-                            IconButton(onClick = { onBack() }) {
-                                Icon(imageVector = Icons.Filled.Close, contentDescription = "Cerrar")
-                            }
-                        }
+                    Text(
+                        text = recipe.strMeal,
+                        style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Image(
+                        painter = rememberAsyncImagePainter(recipe.strMealThumb),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxWidth().aspectRatio(1f)
                     )
 
-                    // Mostrar los detalles de la receta
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = recipe.strMeal,
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 24.sp)
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                        Image(
-                            painter = rememberAsyncImagePainter(recipe.strMealThumb),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .aspectRatio(1f)
-                        )
+                    Text(text = "Category: ${recipe.strCategory}")
+                    Spacer(modifier = Modifier.height(16.dp))
 
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Text(text = "Category: ${recipe.strCategory}")
-                        Text(text = "Area: ${recipe.strArea}")
-                        Spacer(modifier = Modifier.height(16.dp))
-
-                        Text(text = "Instructions:")
-                        Text(text = recipe.strInstructions)
-                    }
+                    Text(text = "Instructions:")
+                    Text(text = recipe.strInstructions)
                 }
             }
         }
     }
 }
+
 
 
