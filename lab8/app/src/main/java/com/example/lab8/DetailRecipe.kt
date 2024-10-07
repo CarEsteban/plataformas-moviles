@@ -5,7 +5,8 @@ data class DetailRecipe(
     val strMeal: String,
     val strMealThumb: String,
     val strInstructions: String,
-    val strCategory: String
+    val strCategory: String,
+    val strArea: String
 )
 
 

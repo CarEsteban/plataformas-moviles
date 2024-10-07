@@ -12,7 +12,8 @@ data class RecipeEntity(
     val strMeal: String,
     val strMealThumb: String,
     val strInstructions: String?,
-    @ColumnInfo(name = "strCategory") val strCategory: String // Importante el nombre correcto
+    val strCategory: String,
+    val strArea: String?
 ) {
     fun toRecipe() = Recipe(
         idMeal = idMeal,
@@ -25,7 +26,8 @@ data class RecipeEntity(
         strMeal = strMeal,
         strMealThumb = strMealThumb,
         strInstructions = strInstructions ?: "",
-        strCategory = strCategory
+        strCategory = strCategory,
+        strArea = strArea?: ""
     )
 
     companion object {
@@ -34,7 +36,8 @@ data class RecipeEntity(
             strMeal = recipe.strMeal,
             strMealThumb = recipe.strMealThumb,
             strInstructions = null,
-            strCategory = category
+            strCategory = category,
+            strArea = null
         )
 
         fun fromRecipeDetail(recipe: DetailRecipe) = RecipeEntity(
@@ -42,7 +45,8 @@ data class RecipeEntity(
             strMeal = recipe.strMeal,
             strMealThumb = recipe.strMealThumb,
             strInstructions = recipe.strInstructions,
-            strCategory = recipe.strCategory
+            strCategory = recipe.strCategory,
+            strArea = recipe.strArea
         )
     }
 }

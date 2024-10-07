@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -80,7 +81,6 @@ class MainViewModel(private val recipeDao: RecipeDao, private val context: Conte
                         loading = false,
                         error = null
                     )
-
                     // Guardar las recetas en la base de datos
                     recipeDao.insertRecipes(response.meals.map { RecipeEntity.fromRecipe(it, category) })
                 } catch (e: Exception) {
@@ -88,6 +88,8 @@ class MainViewModel(private val recipeDao: RecipeDao, private val context: Conte
                         loading = false,
                         error = "Error fetching Recipes: ${e.message}"
                     )
+                    // Agrega este log para imprimir el error
+                    Log.e("MainViewModel", "Error fetching recipes", e)
                 }
             }
         } else {
@@ -103,20 +105,26 @@ class MainViewModel(private val recipeDao: RecipeDao, private val context: Conte
         }
     }
 
+
     // Función para obtener los detalles de una receta por ID
     fun fetchDetailRecipe(idMeal: String) {
         if (isConnectedToInternet()) {
             viewModelScope.launch {
                 try {
                     val response = recipeService.getDetailByRecipe(idMeal)
+                    val detailRecipe = response.meals.first()
+
+                    // Actualizar la receta con los detalles completos en la base de datos
+                    recipeDao.insertRecipe(RecipeEntity.fromRecipeDetail(detailRecipe))
+
                     _detailRecipeState.value = _detailRecipeState.value.copy(
-                        detailRecipe = response.meals.first(),
+                        detailRecipe = detailRecipe,
                         loading = false,
                         error = null
                     )
 
-                    // Guardar el detalle de la receta en la base de datos
-                    recipeDao.insertRecipe(RecipeEntity.fromRecipeDetail(response.meals.first()))
+                    // Log para verificar que se está guardando
+                    Log.d("fetchDetailRecipe", "Receta guardada en la base de datos: $detailRecipe")
                 } catch (e: Exception) {
                     _detailRecipeState.value = _detailRecipeState.value.copy(
                         loading = false,
@@ -128,14 +136,23 @@ class MainViewModel(private val recipeDao: RecipeDao, private val context: Conte
             // Recuperar el detalle de la receta desde la base de datos local
             viewModelScope.launch {
                 val localRecipe = recipeDao.getRecipeById(idMeal)
-                _detailRecipeState.value = _detailRecipeState.value.copy(
-                    detailRecipe = localRecipe?.toDetailRecipe(),
-                    loading = false,
-                    error = null
-                )
+                if (localRecipe != null) {
+                    _detailRecipeState.value = _detailRecipeState.value.copy(
+                        detailRecipe = localRecipe.toDetailRecipe(),
+                        loading = false,
+                        error = null
+                    )
+
+                    // Log para verificar que se está cargando de la base de datos
+                    Log.d("fetchDetailRecipe", "Receta cargada desde la base de datos: ${localRecipe.toDetailRecipe()}")
+                }
             }
         }
     }
+
+
+
+
 
     // Clases de estado
     data class CategoriesState(

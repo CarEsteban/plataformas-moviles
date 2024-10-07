@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         val db = Room.databaseBuilder(
             applicationContext,
             RecipeData::class.java, "recipe-db"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
         val recipeDao = db.recipeDao()
 
         // Crea el ViewModelFactory y el ViewModel
