@@ -11,7 +11,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,7 +46,7 @@ fun BlogApp() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "create_post",
+            startDestination = "user_profile",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("create_post") { CreatePostScreen() }
@@ -58,7 +60,9 @@ fun BlogApp() {
 
 @Composable
 fun BottomNavigationBar(navController: NavController){
-    Row {
+    Row (
+        Modifier.padding(bottom = 60.dp)
+    ){
         Button(onClick = {navController.navigate("create_post")}) {
             Text("Create Post")
         }
