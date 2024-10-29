@@ -4,13 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.lab11.data.UserDataStore
+import com.example.lab11.screens.CreatePostScreen
+import com.example.lab11.screens.UserProfileScreen
 import com.example.lab11.ui.theme.Lab11Theme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +27,43 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Lab11Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                BlogApp()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun BlogApp() {
+    val navController = rememberNavController()
+    val context = LocalContext.current
+    val userDataStore = UserDataStore(context) // Usa el contexto aquí
+
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = "create_post",
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            composable("create_post") { CreatePostScreen() }
+            composable("user_profile") {
+                UserProfileScreen(userDataStore = userDataStore)
+            }
+        }
+    }
 }
 
-@Preview(showBackground = true)
+
 @Composable
-fun GreetingPreview() {
-    Lab11Theme {
-        Greeting("Android")
+fun BottomNavigationBar(navController: NavController){
+    Row {
+        Button(onClick = {navController.navigate("create_post")}) {
+            Text("Create Post")
+        }
+        Button(onClick = {navController.navigate("user_profile")}) {
+            Text("Profile")
+        }
     }
 }
